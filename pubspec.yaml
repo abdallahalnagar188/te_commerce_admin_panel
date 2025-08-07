@@ -14,7 +14,7 @@ dependencies:
   intl: ^0.20.2
   lottie: ^3.3.1
   shimmer: ^3.0.0
-  clipboard: ^0.1.3
+  clipboard: ^2.0.2
   image_picker: ^1.1.2
   url_launcher: ^6.3.1
   flutter_dropzone: ^4.2.1
@@ -31,7 +31,7 @@ dependencies:
   html: ^0.15.6
   fl_chart: ^1.0.0
   data_table_2: ^2.6.0
-  url_strategy: ^0.2.0
+  url_strategy: ^0.3.0
   universal_html: ^2.2.4
 
   # Icons
@@ -43,17 +43,17 @@ dependencies:
   get_storage: ^2.1.1
 
   # Firebase
-  firebase_core: ^3.13.0
-  firebase_auth: ^5.5.3
-  cloud_firestore: ^5.6.7
-  firebase_storage: ^12.4.5
+  firebase_core: ^4.0.0
+  firebase_auth: ^6.0.0
+  cloud_firestore: ^6.0.0
+  firebase_storage: ^13.0.0
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
 
 
 flutter:
