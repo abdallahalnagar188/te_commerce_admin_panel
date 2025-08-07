@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:te_commerce_admin_panel/common/widgets/layouts/templates/site_layout.dart';
-import 'package:te_commerce_admin_panel/common/widgets/responsive/responsive_design.dart';
-import 'package:te_commerce_admin_panel/common/widgets/responsive/screens/tablet_layout.dart';
 import 'package:te_commerce_admin_panel/routes/app_routes.dart';
 import 'package:te_commerce_admin_panel/routes/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'utils/constants/colors.dart';
 import 'utils/constants/text_strings.dart';
-import 'utils/device/web_material_scroll.dart';
 import 'utils/theme/theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
 
-  static final Uri _productUri =
-      Uri.parse('https://codingwitht.com/ecommerce-app-with-admin-panel/');
-
-  Future<void> _openProductPage() async {
-    // On web this will open a new tab automatically
-    if (!await launchUrl(_productUri, webOnlyWindowName: '_blank')) {
-      debugPrint('Could not launch $_productUri');
-    }
-  }
+  // static final Uri _productUri =
+  //     Uri.parse('https://codingwitht.com/ecommerce-app-with-admin-panel/');
+  //
+  // Future<void> _openProductPage() async {
+  //   // On web this will open a new tab automatically
+  //   if (!await launchUrl(_productUri, webOnlyWindowName: '_blank')) {
+  //     debugPrint('Could not launch $_productUri');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +37,6 @@ class App extends StatelessWidget {
                   child: Text('Page Not Found'),
                 ),
               )),
-      //  home: const FirstScreen()
     );
   }
 }
