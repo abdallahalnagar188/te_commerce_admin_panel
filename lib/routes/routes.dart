@@ -1,13 +1,11 @@
 class TRoutes {
 
-  // static const firstScreen = '/';
-  // static const secondScreen = '/second-screen/';
-   static const responsiveDesignTutorialScreen = '/responsiveDesignTutorialScreen';
+   static const responsiveDesignTutorialScreen = '/responsive-design-tutorial/';
 
 
   static const login = '/login';
-  static const forgetPassword = '/forgetPassword';
-  static const resetPassword = '/resetPassword';
+  static const forgetPassword = '/forget-password';
+  static const resetPassword = '/reset-password';
   static const dashboard = '/dashboard';
   static const media = '/login';
 
@@ -30,6 +28,9 @@ class TRoutes {
   static const customers = '/customers';
   static const createCustomer = '/createCustomer';
   static const customerDetails = '/customerDetails';
+
+  static var sideBarMenuItems = [
+  ];
 
 
 }

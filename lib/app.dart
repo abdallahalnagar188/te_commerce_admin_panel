@@ -29,7 +29,7 @@ class App extends StatelessWidget {
       darkTheme: TAppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       getPages: TAppRoute.pages,
-      initialRoute: TRoutes.responsiveDesignTutorialScreen,
+      initialRoute: TRoutes.login,
       unknownRoute: GetPage(
           name: '/page-not-found',
           page: () => Scaffold(
@@ -46,7 +46,7 @@ class ResponsiveDesignScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TSiteLayout(desktop: Desktop(), tablet: Tablet(),mobile: Mobile(),);
+    return TSiteTemplate(desktop: Desktop(), tablet: Tablet(),mobile: Mobile(),);
   }
 }
 

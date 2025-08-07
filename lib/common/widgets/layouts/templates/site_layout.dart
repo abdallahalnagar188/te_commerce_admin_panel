@@ -4,8 +4,8 @@ import 'package:te_commerce_admin_panel/common/widgets/responsive/screens/deskto
 import 'package:te_commerce_admin_panel/common/widgets/responsive/screens/mobile_layout.dart';
 import 'package:te_commerce_admin_panel/common/widgets/responsive/screens/tablet_layout.dart';
 
-class TSiteLayout extends StatelessWidget {
-  const TSiteLayout({super.key, this.desktop, this.tablet, this.mobile,  this.useLayout = true});
+class TSiteTemplate extends StatelessWidget {
+  const TSiteTemplate({super.key, this.desktop, this.tablet, this.mobile,  this.useLayout = true});
 
   final Widget? desktop;
   final Widget? tablet;

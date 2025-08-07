@@ -3,12 +3,13 @@ import 'package:te_commerce_admin_panel/app.dart';
 
 // import other screens as needed...
 
+import '../features/auth/screens/login/login_screen.dart';
 import 'routes.dart';
 
 class TAppRoute {
   static final List<GetPage> pages = [
 
-     GetPage(name: TRoutes.responsiveDesignTutorialScreen, page: () =>  ResponsiveDesignScreen()),
+     GetPage(name: TRoutes.login, page: () =>  LoginScreen()),
 
     // GetPage(name: TRoutes.login, page: () => const LoginScreen()),
     // GetPage(name: TRoutes.forgetPassword, page: () => const ForgetPasswordScreen()),
