@@ -8,12 +8,24 @@ class UserController extends GetxController {
 
   final userRepo = Get.put(UserRepo());
 
+  RxBool isLoading = false.obs;
+  Rx<UserModel> user = UserModel.empty().obs;
+
+  @override
+  void onInit() {
+    fetchUserDetails();
+    super.onInit();
+  }
   /// Fetch user details from the repo
   Future<UserModel> fetchUserDetails() async {
     try{
+      isLoading.value = true;
       final user = await userRepo.fetchAdminDetails();
+      this.user.value = user;
+      isLoading.value = false;
       return user;
     }catch(e){
+      isLoading.value = false;
       TLoaders.errorSnackBar(title: 'Something went wrong...', message: e.toString());
       return UserModel.empty();
     }

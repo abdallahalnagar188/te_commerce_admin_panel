@@ -73,7 +73,7 @@ class LoginController extends GetxController {
       // Redirect
       if(user.role != AppRole.admin){
         await AuthRepo.instance.logout();
-        TLoaders.errorSnackBar(title: "Oh Snap", message: 'You are not auth or do not have access. contact admin for login in');
+        TLoaders.errorSnackBar(title: "No Auth", message: 'You are not auth or do not have access. contact admin for login in');
       }else{
         AuthRepo.instance.screenRedirect();
 
