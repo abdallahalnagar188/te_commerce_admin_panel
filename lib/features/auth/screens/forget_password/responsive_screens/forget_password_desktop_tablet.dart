@@ -1,0 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:te_commerce_admin_panel/common/styles/spacing_styles.dart';
+import 'package:te_commerce_admin_panel/common/widgets/layouts/sidebars/sidebar.dart';
+import 'package:te_commerce_admin_panel/common/widgets/layouts/templates/login_template.dart';
+import 'package:te_commerce_admin_panel/common/widgets/layouts/templates/site_layout.dart';
+import 'package:te_commerce_admin_panel/utils/constants/colors.dart';
+import 'package:te_commerce_admin_panel/utils/constants/image_strings.dart';
+import 'package:te_commerce_admin_panel/utils/constants/sizes.dart';
+import 'package:te_commerce_admin_panel/utils/constants/text_strings.dart';
+
+import '../../../../../routes/routes.dart';
+import '../widgets/header_form.dart';
+
+class ForgetPasswordScreenDesktopTablet extends StatelessWidget {
+  const ForgetPasswordScreenDesktopTablet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TLoginTemplate(
+        child: HeaderAndForm());
+  }
+}
+
