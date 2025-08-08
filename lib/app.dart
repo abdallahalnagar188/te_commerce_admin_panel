@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:te_commerce_admin_panel/bindings/general_bindings.dart';
 import 'package:te_commerce_admin_panel/common/widgets/layouts/templates/site_layout.dart';
 import 'package:te_commerce_admin_panel/routes/app_routes.dart';
 import 'package:te_commerce_admin_panel/routes/routes.dart';
@@ -29,50 +30,9 @@ class App extends StatelessWidget {
       darkTheme: TAppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       getPages: TAppRoute.pages,
-      initialRoute: TRoutes.login,
-      unknownRoute: GetPage(
-          name: '/page-not-found',
-          page: () => Scaffold(
-                body: Center(
-                  child: Text('Page Not Found'),
-                ),
-              )),
+      initialBinding: GeneralBindings(),
+      initialRoute: TRoutes.dashboard,
+      unknownRoute: GetPage(name: '/page-not-found', page: () => Scaffold(body: Center(child: Text('Page Not Found'),),)),
     );
-  }
-}
-
-class ResponsiveDesignScreen extends StatelessWidget {
-  const ResponsiveDesignScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return TSiteTemplate(desktop: Desktop(), tablet: Tablet(),mobile: Mobile(),);
-  }
-}
-
-class Desktop extends StatelessWidget {
-  const Desktop({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}
-
-class Tablet extends StatelessWidget {
-  const Tablet({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}
-
-class Mobile extends StatelessWidget {
-  const Mobile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
   }
 }
