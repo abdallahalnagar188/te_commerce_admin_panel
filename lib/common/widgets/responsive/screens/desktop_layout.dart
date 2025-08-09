@@ -4,9 +4,10 @@ import 'package:te_commerce_admin_panel/common/widgets/layouts/headers/header.da
 import 'package:te_commerce_admin_panel/common/widgets/layouts/sidebars/sidebar.dart';
 
 class DesktopLayout extends StatelessWidget {
-   const DesktopLayout({super.key, this.body});
+  const DesktopLayout({super.key, this.body});
 
   final Widget? body;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,16 +15,16 @@ class DesktopLayout extends StatelessWidget {
         children: [
           const Expanded(child: TSidebar()),
           Expanded(
-            flex: 5,
+              flex: 5,
               child: Column(
-            children: [
-              /// Header
-           THeader(),
+                children: [
+                  /// Header
+                  THeader(),
 
-              /// body
-              body ?? const SizedBox()
-            ],
-          ))
+                  /// body
+                  Expanded(child: body ?? const SizedBox())
+                ],
+              ))
         ],
       ),
     );
