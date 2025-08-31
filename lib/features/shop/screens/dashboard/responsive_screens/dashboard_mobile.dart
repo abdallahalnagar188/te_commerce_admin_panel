@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../../utils/constants/sizes.dart';
+import '../table/data_table.dart';
 import '../widgets/dashboard_card.dart';
+import '../widgets/order_status_graph.dart';
+import '../widgets/weekly_sales.dart';
 
 class DashboardMobileScreen extends StatelessWidget {
   const DashboardMobileScreen({super.key});
@@ -27,6 +31,24 @@ class DashboardMobileScreen extends StatelessWidget {
                 TDashboardCard(title: 'Total Orders', subTitle: '\$35', stats: 44,),
                 const SizedBox(height: TSizes.spaceBtwItems,),
                 TDashboardCard(title: 'Visitors', subTitle: '254,034', stats: 2,),
+
+                /// Bar graph
+                TWeeklySalesGraph(),
+                const SizedBox(height: TSizes.spaceBtwSections,),
+
+                /// Orders
+                /// Orders
+                TRoundedContainer(
+                  child:Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,children: [
+                    Text('Recent Order',style: Theme.of(context).textTheme.headlineSmall,),
+                    const SizedBox(height: TSizes.spaceBtwSections,),
+                    const DashboardOrderTable()
+                  ],
+                  ),
+                ),
+                const SizedBox(height: TSizes.spaceBtwSections,),
+                OrderStatusPieChart(),
               ],
             ),
           ),
