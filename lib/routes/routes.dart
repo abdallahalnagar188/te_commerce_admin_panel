@@ -7,7 +7,7 @@ class TRoutes {
   static const forgetPassword = '/forget-password/';
   static const resetPassword = '/reset-password';
    static const dashboard = '/dashboard';
-  // static const media = '/media';
+   static const media = '/media';
   //
   // static const banners = '/banners';
   // static const createBanner = '/createBanner';
@@ -30,7 +30,8 @@ class TRoutes {
   // static const customerDetails = '/customerDetails';
 
   static var sideBarMenuItems = [
-    dashboard
+    dashboard,
+    media
   ];
 
 
