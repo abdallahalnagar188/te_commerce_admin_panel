@@ -1,0 +1,105 @@
+import 'dart:typed_data';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
+import 'package:flutter_dropzone/flutter_dropzone.dart';
+import 'package:te_commerce_admin_panel/utils/formatters/formatter.dart';
+
+class ImageModel {
+  String id;
+  final String url;
+  final String folder;
+  final int? sizeBytes;
+  String mediaCategory;
+  final String fileName;
+  final String? fullPath;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final String? contentType;
+
+  // Not mapped
+  final DropzoneFileInterface? file; // ✅ use DropzoneFileInterface for Web
+  RxBool isSelected = false.obs;
+  final Uint8List? localImageToDisplay;
+
+  /// Constructor for ImageModel
+  ImageModel({
+    this.id = '',
+    required this.url,
+    required this.folder,
+    this.sizeBytes,
+    this.mediaCategory = '',
+    required this.fileName,
+    this.fullPath,
+    this.createdAt,
+    this.updatedAt,
+    this.contentType,
+    this.file,
+    this.localImageToDisplay,
+  });
+
+  /// empty ImageModel
+  static ImageModel empty() => ImageModel(url: '', folder: '', fileName: '');
+
+  String get createdAtFormatted => TFormatter.formatDate(createdAt);
+
+  String get updatedAtFormatted => TFormatter.formatDate(updatedAt);
+
+  /// Factory constructor from JSON
+  factory ImageModel.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> document) {
+    if (document.data() != null) {
+      final doc = document.data()!;
+      return ImageModel(
+        id: document.id,
+        url: doc['url'] ?? '',
+        folder: doc['folder'] ?? '',
+        sizeBytes: doc['sizeBytes'],
+        mediaCategory: doc['mediaCategory'] ?? '',
+        fileName: doc['fileName'] ?? '',
+        fullPath: doc['fullPath'],
+        createdAt: doc['createdAt'] != null
+            ? DateTime.parse(doc['createdAt'])
+            : null,
+        updatedAt: doc['updatedAt'] != null
+            ? DateTime.parse(doc['updatedAt'])
+            : null,
+        contentType: doc['contentType'],
+      );
+    } else {
+      return ImageModel.empty();
+    }
+  }
+
+  /// Map Firebase Storage Data
+  factory ImageModel.fromFirebaseMetadata(
+      FullMetadata metaData, String folder, String fileName, String downloadUrl) {
+    return ImageModel(
+      url: downloadUrl,
+      folder: folder,
+      fileName: fileName,
+      sizeBytes: metaData.size,
+      updatedAt: metaData.updated,
+      fullPath: metaData.fullPath,
+      createdAt: metaData.timeCreated,
+      contentType: metaData.contentType,
+    );
+  }
+
+  /// Convert object to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'url': url,
+      'folder': folder,
+      'sizeBytes': sizeBytes,
+      'mediaCategory': mediaCategory,
+      'fileName': fileName,
+      'fullPath': fullPath,
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
+      'contentType': contentType,
+    };
+  }
+}
