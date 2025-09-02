@@ -11,14 +11,18 @@ import 'package:te_commerce_admin_panel/utils/popups/full_screen_loader.dart';
 import 'package:te_commerce_admin_panel/utils/popups/loaders.dart';
 import 'package:te_commerce_admin_panel/data/repos/media/media_repo.dart';
 
+import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/constants/text_strings.dart';
+import '../screens/media/widgets/mdia_content.dart';
+import '../screens/media/widgets/media_uploader.dart';
 
 class MediaController extends GetxController {
   static MediaController get instance => Get.find();
 
   final RxBool loading = false.obs;
+  final RxBool showImagesUploaderSection = false.obs;
 
   final int initialLoadCount = 20;
   final int loadMoreCount = 25;
@@ -64,7 +68,8 @@ class MediaController extends GetxController {
       loading.value = false;
     } catch (e) {
       loading.value = false;
-      TLoaders.errorSnackBar(title: 'Oh Snap!',
+      TLoaders.errorSnackBar(
+          title: 'Oh Snap!',
           message: 'Unable to fetch images, Somthing went wrong : $e');
       print(e.toString());
     }
@@ -90,15 +95,15 @@ class MediaController extends GetxController {
       final images = await mediaRepo.loadMoreImagesFromDatabase(
           selectedPath.value,
           loadMoreCount,
-          targetList.last.createdAt ?? DateTime.now()
-      );
+          targetList.last.createdAt ?? DateTime.now());
 
       targetList.addAll(images);
 
       loading.value = false;
     } catch (e) {
       loading.value = false;
-      TLoaders.errorSnackBar(title: 'Oh Snap!',
+      TLoaders.errorSnackBar(
+          title: 'Oh Snap!',
           message: 'Unable to fetch images, Somthing went wrong : $e');
     }
   }
@@ -146,8 +151,7 @@ class MediaController extends GetxController {
       confirmText: 'Upload',
       onConfirm: () async => await uploadImages(),
       content:
-      'Are you sure you want to upload all these images in ${selectedPath.value
-          .name} folder?',
+          'Are you sure you want to upload all these images in ${selectedPath.value.name} folder?',
     );
   }
 
@@ -184,7 +188,7 @@ class MediaController extends GetxController {
 
         // Upload Image to Firebase Storage
         final ImageModel uploadedImage =
-        await mediaRepo.uploadImageFileInStorage(
+            await mediaRepo.uploadImageFileInStorage(
           bytes: selectedImage.localImageToDisplay!, // ✅ use Uint8List
           path: getSelectedPath(),
           imageName: selectedImage.fileName,
@@ -238,7 +242,8 @@ class MediaController extends GetxController {
   }
 
   void removeCloudImageConfirmation(ImageModel image) {
-    TDialogs.defaultDialog(context: Get.context!,
+    TDialogs.defaultDialog(
+        context: Get.context!,
         content: 'Are Your sure you want to delete this image',
         onConfirm: () {
           Get.back();
@@ -250,52 +255,56 @@ class MediaController extends GetxController {
     showDialog(
         context: Get.context!,
         barrierDismissible: false,
-        builder: (context) =>
-            PopScope(
-                canPop: false,
-                child: AlertDialog(
-                  title: const Text('Uploading Images'),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        TImages.uploadingImageIllustration,
-                        height: 300,
-                        width: 300,
-                      ),
-                      const SizedBox(
-                        height: TSizes.spaceBtwItems,
-                      ),
-                      const Text('Sit Tight, Your Images are Uploading...')
-                    ],
+        builder: (context) => PopScope(
+            canPop: false,
+            child: AlertDialog(
+              title: const Text('Uploading Images'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    TImages.uploadingImageIllustration,
+                    height: 300,
+                    width: 300,
                   ),
-                )));
+                  const SizedBox(
+                    height: TSizes.spaceBtwItems,
+                  ),
+                  const Text('Sit Tight, Your Images are Uploading...')
+                ],
+              ),
+            )));
   }
 
-void removeCloudImage(ImageModel image) async {
-    try{
+  void removeCloudImage(ImageModel image) async {
+    try {
       Get.back();
 
       // show Loader
       Get.defaultDialog(
-        title: '',
-        barrierDismissible: false,
-        backgroundColor: Colors.transparent,
-        content: PopScope(canPop: false,child: SizedBox(width: 150,height: 150,child: TCircularLoader(),))
-      );
+          title: '',
+          barrierDismissible: false,
+          backgroundColor: Colors.transparent,
+          content: PopScope(
+              canPop: false,
+              child: SizedBox(
+                width: 150,
+                height: 150,
+                child: TCircularLoader(),
+              )));
 
       // Delete Image
       await mediaRepo.deleteFileFromStorage(image);
-      RxList<ImageModel> targetList ;
+      RxList<ImageModel> targetList;
 
-      switch(selectedPath.value){
+      switch (selectedPath.value) {
         case MediaCategory.banners:
-          targetList= allBannerImages;
+          targetList = allBannerImages;
           break;
 
         case MediaCategory.brands:
-        targetList = allBrandImages;
-        break;
+          targetList = allBrandImages;
+          break;
         case MediaCategory.categories:
           targetList = allCategoryImages;
           break;
@@ -306,19 +315,54 @@ void removeCloudImage(ImageModel image) async {
           targetList = allUserImages;
           break;
 
-        default: return;
+        default:
+          return;
       }
 
       targetList.remove(image);
       update();
 
       TFullScreenLoader.stopLoading();
-      TLoaders.successSnackBar(title: 'Image Deleted' ,message: 'Image Successfully deleted from the cloud storage');
-
-    }catch(e){
+      TLoaders.successSnackBar(
+          title: 'Image Deleted',
+          message: 'Image Successfully deleted from the cloud storage');
+    } catch (e) {
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Oh Snap' ,message: e.toString());
-
+      TLoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
     }
+  }
+
+  // Images Selection Bottom Sheet
+  Future<List<ImageModel>?> selectImagesFromMedia({
+    List<String>? selectedUrls,
+    bool allowSelection = true,
+    bool multipleSelection = false,
+  }) async {
+    showImagesUploaderSection.value = true;
+
+    List<ImageModel>? selectedImages = await Get.bottomSheet<List<ImageModel>>(
+      isScrollControlled: true,
+      backgroundColor: TColors.primaryBackground,
+      FractionallySizedBox(
+        heightFactor: 1,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(TSizes.defaultSpace),
+            child: Column(
+              children: [
+                const MediaUploader(),
+                MediaContent(
+                  allowSelection: allowSelection,
+                  alreadySelectedUrls: selectedUrls ?? [],
+                  allowMultipleSelection: multipleSelection,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    return selectedImages;
   }
 }

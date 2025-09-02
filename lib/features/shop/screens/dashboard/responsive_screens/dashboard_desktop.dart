@@ -1,18 +1,11 @@
-import 'package:data_table_2/data_table_2.dart';
-import 'package:fl_chart/fl_chart.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:te_commerce_admin_panel/common/widgets/containers/rounded_container.dart';
-import 'package:te_commerce_admin_panel/common/widgets/data_table/paginated_data_table.dart';
-import 'package:te_commerce_admin_panel/common/widgets/texts/section_heading.dart';
-import 'package:te_commerce_admin_panel/features/shop/controllers/dashboard/dashboard_controller.dart';
+import 'package:te_commerce_admin_panel/features/shop/controllers/product/product_images_controller.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/dashboard/table/data_table.dart';
-import 'package:te_commerce_admin_panel/utils/constants/colors.dart';
 import 'package:te_commerce_admin_panel/utils/constants/sizes.dart';
-import 'package:te_commerce_admin_panel/utils/device/device_utility.dart';
-
 import '../widgets/dashboard_card.dart';
 import '../widgets/order_status_graph.dart';
 import '../widgets/weekly_sales.dart';
@@ -22,6 +15,7 @@ class DashboardDesktopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ProductImageController());
     return Scaffold(
         body: SingleChildScrollView(
           child: Padding(
@@ -31,14 +25,12 @@ class DashboardDesktopScreen extends StatelessWidget {
               children: [
 
                 /// Heading
-                Text(
-                  'Dashboard',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .headlineLarge,
-                ),
+                Text('Dashboard', style: Theme.of(context).textTheme.headlineLarge,),
+                ElevatedButton(onPressed: () => controller.selectThumbnailImage(), child: Text('Selected Single Image')),
                 const SizedBox(height: TSizes.spaceBtwSections,),
+                ElevatedButton(onPressed: () => controller.selectMultipleProductImages(), child: Text('Selected Multiple Single Image')),
+                const SizedBox(height: TSizes.spaceBtwSections,),
+
 
                 /// Cards
                 Row(
