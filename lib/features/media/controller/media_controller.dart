@@ -2,6 +2,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:get/get.dart';
+import 'package:te_commerce_admin_panel/common/widgets/images/t_circular_image.dart';
+import 'package:te_commerce_admin_panel/common/widgets/loaders/circular_loader.dart';
 import 'package:te_commerce_admin_panel/features/media/models/image/image_model.dart';
 import 'package:te_commerce_admin_panel/utils/constants/enums.dart';
 import 'package:te_commerce_admin_panel/utils/popups/dialogs.dart';
@@ -15,6 +17,11 @@ import '../../../utils/constants/text_strings.dart';
 
 class MediaController extends GetxController {
   static MediaController get instance => Get.find();
+
+  final RxBool loading = false.obs;
+
+  final int initialLoadCount = 20;
+  final int loadMoreCount = 25;
 
   late DropzoneViewController dropzoneViewController;
   final RxBool showImageUploaderSection = false.obs;
@@ -30,6 +37,72 @@ class MediaController extends GetxController {
 
   final MediaRepository mediaRepo = MediaRepository();
 
+  void getMediaImages() async {
+    try {
+      loading.value = true;
+      RxList<ImageModel> targetList = <ImageModel>[].obs;
+
+      if (selectedPath.value == MediaCategory.banners) {
+        targetList = allBannerImages;
+      } else if (selectedPath.value == MediaCategory.brands) {
+        targetList = allBrandImages;
+      } else if (selectedPath.value == MediaCategory.categories) {
+        targetList = allCategoryImages;
+      } else if (selectedPath.value == MediaCategory.products) {
+        targetList = allProductImages;
+      } else if (selectedPath.value == MediaCategory.users) {
+        targetList = allUserImages;
+      }
+
+      final images = await mediaRepo.fetchImagesFromDatabase(
+        selectedPath.value,
+        initialLoadCount,
+      );
+
+      targetList.assignAll(images);
+
+      loading.value = false;
+    } catch (e) {
+      loading.value = false;
+      TLoaders.errorSnackBar(title: 'Oh Snap!',
+          message: 'Unable to fetch images, Somthing went wrong : $e');
+      print(e.toString());
+    }
+  }
+
+  void loadMoreMediaImages() async {
+    try {
+      loading.value = true;
+      RxList<ImageModel> targetList = <ImageModel>[].obs;
+
+      if (selectedPath.value == MediaCategory.banners) {
+        targetList = allBannerImages;
+      } else if (selectedPath.value == MediaCategory.brands) {
+        targetList = allBrandImages;
+      } else if (selectedPath.value == MediaCategory.categories) {
+        targetList = allCategoryImages;
+      } else if (selectedPath.value == MediaCategory.products) {
+        targetList = allProductImages;
+      } else if (selectedPath.value == MediaCategory.users) {
+        targetList = allUserImages;
+      }
+
+      final images = await mediaRepo.loadMoreImagesFromDatabase(
+          selectedPath.value,
+          loadMoreCount,
+          targetList.last.createdAt ?? DateTime.now()
+      );
+
+      targetList.addAll(images);
+
+      loading.value = false;
+    } catch (e) {
+      loading.value = false;
+      TLoaders.errorSnackBar(title: 'Oh Snap!',
+          message: 'Unable to fetch images, Somthing went wrong : $e');
+    }
+  }
+
   /// Pick images using Dropzone (web only)
   Future<void> selectLocalImage() async {
     final files = await dropzoneViewController.pickFiles(
@@ -44,7 +117,8 @@ class MediaController extends GetxController {
 
           final image = ImageModel(
             url: '',
-            file: file, // html.File directly
+            file: file,
+            // html.File directly
             folder: '',
             fileName: file.name,
             localImageToDisplay: Uint8List.fromList(bytes),
@@ -72,7 +146,8 @@ class MediaController extends GetxController {
       confirmText: 'Upload',
       onConfirm: () async => await uploadImages(),
       content:
-      'Are you sure you want to upload all these images in ${selectedPath.value.name} folder?',
+      'Are you sure you want to upload all these images in ${selectedPath.value
+          .name} folder?',
     );
   }
 
@@ -108,12 +183,12 @@ class MediaController extends GetxController {
         var selectedImage = selectedImagesToUpload[i];
 
         // Upload Image to Firebase Storage
-        final ImageModel uploadedImage = await mediaRepo.uploadImageFileInStorage(
+        final ImageModel uploadedImage =
+        await mediaRepo.uploadImageFileInStorage(
           bytes: selectedImage.localImageToDisplay!, // ✅ use Uint8List
           path: getSelectedPath(),
           imageName: selectedImage.fileName,
         );
-
 
         uploadedImage.mediaCategory = selectedCategory.name;
 
@@ -138,8 +213,7 @@ class MediaController extends GetxController {
     }
   }
 
-
-String getSelectedPath() {
+  String getSelectedPath() {
     String path = '';
     switch (selectedPath.value) {
       case MediaCategory.banners:
@@ -163,28 +237,88 @@ String getSelectedPath() {
     return path;
   }
 
+  void removeCloudImageConfirmation(ImageModel image) {
+    TDialogs.defaultDialog(context: Get.context!,
+        content: 'Are Your sure you want to delete this image',
+        onConfirm: () {
+          Get.back();
+          removeCloudImage(image);
+        });
+  }
+
   void uploadImagesLoader() {
     showDialog(
         context: Get.context!,
         barrierDismissible: false,
-        builder: (context) => PopScope(
-            canPop: false,
-            child: AlertDialog(
-              title: const Text('Uploading Images'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    TImages.uploadingImageIllustration,
-                    height: 300,
-                    width: 300,
+        builder: (context) =>
+            PopScope(
+                canPop: false,
+                child: AlertDialog(
+                  title: const Text('Uploading Images'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        TImages.uploadingImageIllustration,
+                        height: 300,
+                        width: 300,
+                      ),
+                      const SizedBox(
+                        height: TSizes.spaceBtwItems,
+                      ),
+                      const Text('Sit Tight, Your Images are Uploading...')
+                    ],
                   ),
-                  const SizedBox(
-                    height: TSizes.spaceBtwItems,
-                  ),
-                  const Text('Sit Tight, Your Images are Uploading...')
-                ],
-              ),
-            )));
+                )));
+  }
+
+void removeCloudImage(ImageModel image) async {
+    try{
+      Get.back();
+
+      // show Loader
+      Get.defaultDialog(
+        title: '',
+        barrierDismissible: false,
+        backgroundColor: Colors.transparent,
+        content: PopScope(canPop: false,child: SizedBox(width: 150,height: 150,child: TCircularLoader(),))
+      );
+
+      // Delete Image
+      await mediaRepo.deleteFileFromStorage(image);
+      RxList<ImageModel> targetList ;
+
+      switch(selectedPath.value){
+        case MediaCategory.banners:
+          targetList= allBannerImages;
+          break;
+
+        case MediaCategory.brands:
+        targetList = allBrandImages;
+        break;
+        case MediaCategory.categories:
+          targetList = allCategoryImages;
+          break;
+        case MediaCategory.products:
+          targetList = allProductImages;
+          break;
+        case MediaCategory.users:
+          targetList = allUserImages;
+          break;
+
+        default: return;
+      }
+
+      targetList.remove(image);
+      update();
+
+      TFullScreenLoader.stopLoading();
+      TLoaders.successSnackBar(title: 'Image Deleted' ,message: 'Image Successfully deleted from the cloud storage');
+
+    }catch(e){
+      TFullScreenLoader.stopLoading();
+      TLoaders.errorSnackBar(title: 'Oh Snap' ,message: e.toString());
+
+    }
   }
 }
