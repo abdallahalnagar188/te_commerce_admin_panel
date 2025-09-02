@@ -8,6 +8,9 @@ import '../features/auth/screens/forget_password/forget_password_screen.dart';
 import '../features/auth/screens/login/login_screen.dart';
 import '../features/auth/screens/reset_password/reset_password_screen.dart';
 import '../features/media/screens/media/media.dart';
+import '../features/shop/screens/category/all_categories/categories.dart';
+import '../features/shop/screens/category/create_category/create_category.dart';
+import '../features/shop/screens/category/edit_category/edit_category.dart';
 import '../features/shop/screens/dashboard/dashboard_screen.dart';
 import 'routes.dart';
 
@@ -30,10 +33,10 @@ class TAppRoute {
     // GetPage(name: TRoutes.createProduct, page: () => const CreateProductScreen(), middlewares: [TRouteMiddleware()]),
     // GetPage(name: TRoutes.editeProduct, page: () => const EditProductScreen(), middlewares: [TRouteMiddleware()]),
     //
-    // // Categories
-    // GetPage(name: TRoutes.categories, page: () => const CategoriesScreen(), middlewares: [TRouteMiddleware()]),
-    // GetPage(name: TRoutes.createCategory, page: () => const CreateCategoryScreen(), middlewares: [TRouteMiddleware()]),
-    // GetPage(name: TRoutes.editeCategory, page: () => const EditCategoryScreen(), middlewares: [TRouteMiddleware()]),
+     // Categories
+    GetPage(name: TRoutes.categories, page: () => const CategoriesScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.createCategory, page: () => const CreateCategoryScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.editeCategory, page: () => const EditCategoryScreen(), middlewares: [TRouteMiddleware()]),
 
     // You can continue with brands, customers, etc.
   ];

@@ -16,11 +16,11 @@ class TRoutes {
   // static const products = '/products';
   // static const createProduct = '/createProduct';
   // static const editeProduct = '/editeProduct';
-  //
-  // static const categories = '/categories';
-  // static const createCategory = '/createCategory';
-  // static const editeCategory = '/editeCategory';
-  //
+
+  static const categories = '/categories';
+  static const createCategory = '/category/createCategory';
+  static const editeCategory = '/editeCategory';
+
   // static const brands = '/brands';
   // static const createBrand = '/createBrand';
   // static const editeBrand = '/editeBrand';
@@ -31,7 +31,8 @@ class TRoutes {
 
   static var sideBarMenuItems = [
     dashboard,
-    media
+    media,
+    categories
   ];
 
 

@@ -41,7 +41,7 @@ class TSidebar extends StatelessWidget {
                     // Menu Items
                     TMenuItem(icon: Iconsax.status,itemName: 'Dashboard',route:TRoutes.dashboard,),
                     TMenuItem(icon: Iconsax.image,itemName: 'Media',route: TRoutes.media,),
-                   // TMenuItem(icon: Iconsax.picture_frame,itemName: 'Banners',route: '',),
+                    TMenuItem(icon: Iconsax.category_2,itemName: 'Categories',route: TRoutes.categories,),
                   ],
                 ),
               )
