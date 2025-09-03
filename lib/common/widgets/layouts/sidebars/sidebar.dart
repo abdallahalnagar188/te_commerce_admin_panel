@@ -27,6 +27,7 @@ class TSidebar extends StatelessWidget {
                 height: 100,
                 image: TImages.darkAppLogo,
                 backgroundColor: Colors.transparent,
+                padding: 0,
               ),
               const SizedBox(
                 height: TSizes.spaceBtwSections,
@@ -35,6 +36,7 @@ class TSidebar extends StatelessWidget {
                 padding: EdgeInsets.all(TSizes.md),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text('MENU',style: Theme.of(context).textTheme.bodySmall!.apply(letterSpacingDelta: 1.2),),
 
@@ -43,6 +45,7 @@ class TSidebar extends StatelessWidget {
                     TMenuItem(icon: Iconsax.image,itemName: 'Media',route: TRoutes.media,),
                     TMenuItem(icon: Iconsax.category_2,itemName: 'Categories',route: TRoutes.categories,),
                     TMenuItem(icon: Iconsax.dcube,itemName: 'Brands',route: TRoutes.brands,),
+                    TMenuItem(icon: Iconsax.picture_frame,itemName: 'Banners',route: TRoutes.banners,),
                   ],
                 ),
               )

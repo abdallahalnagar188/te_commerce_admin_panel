@@ -9,6 +9,6 @@ class CategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TSiteTemplate(desktop: CategoriesDesktopScreen(),tablet: CategoriesTabletScreen(),mobile: CategoriesMobileScreen(),);
+    return TSiteTemplate(desktop: CategoriesDesktopScreen());
   }
 }

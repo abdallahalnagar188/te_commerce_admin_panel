@@ -12,8 +12,6 @@ class CreateCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return TSiteTemplate(
       desktop: CreateCategoryDesktopScreen(),
-      tablet: CreateCategoryTabletScreen(),
-      mobile: CreateCategoryMobileScreen(),
     );
   }
 }

@@ -12,8 +12,6 @@ class CreateBrandScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return TSiteTemplate(
       desktop: CreateBrandDesktopScreen(),
-      tablet: CreateBrandTabletScreen(),
-      mobile: CreateBrandMobileScreen(),
     );
   }
 }

@@ -11,8 +11,7 @@ class EditBrandScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return TSiteTemplate(
       desktop: EditBrandDesktopScreen(),
-      tablet: EditBrandTabletScreen(),
-      mobile: EditBrandMobileScreen(),
+
     );
   }
 }

@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/brands/create_brand/widgets/create_brand_form.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/category/create_category/widgets/create_category_form.dart';
-
 import '../../../../../../common/widgets/breadcrumbs/breadcrumbs_with_heading.dart';
-import '../../../../../../common/widgets/containers/rounded_container.dart';
-import '../../../../../../common/widgets/data_table/table_header.dart';
 import '../../../../../../routes/routes.dart';
 import '../../../../../../utils/constants/sizes.dart';
-import '../../../banners/create_banner/widgets/create_banner_form.dart';
+import '../widgets/create_banner_form.dart';
 
-class CreateBrandDesktopScreen extends StatelessWidget {
-  const CreateBrandDesktopScreen({super.key});
+class CreateBannerDesktopScreen extends StatelessWidget {
+  const CreateBannerDesktopScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +17,10 @@ class CreateBrandDesktopScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TBreadcrumbsWithHeading(heading: 'Create Brand', breadcrumbsItems: [TRoutes.brands,'create brand'],returnToPreviousScreen: true,),
+              TBreadcrumbsWithHeading(heading: 'Create Banner', breadcrumbsItems: [TRoutes.banners,'create banner'],returnToPreviousScreen: true,),
               SizedBox(height: TSizes.spaceBtwSections,),
 
-              CreateBrandForm()
+              CreateBannerForm()
             ],
           ),
         ),

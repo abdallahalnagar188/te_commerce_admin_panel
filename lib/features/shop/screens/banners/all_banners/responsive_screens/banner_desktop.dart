@@ -8,8 +8,8 @@ import 'package:te_commerce_admin_panel/utils/constants/sizes.dart';
 
 import '../table/data_table.dart';
 
-class BrandsDesktopScreen extends StatelessWidget {
-  const BrandsDesktopScreen({super.key});
+class BannersDesktopScreen extends StatelessWidget {
+  const BannersDesktopScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,21 +19,18 @@ class BrandsDesktopScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TBreadcrumbsWithHeading(
-                heading: 'Brands', breadcrumbsItems: ['Brands']),
-            SizedBox(
-              height: TSizes.spaceBtwSections,
-            ),
+            TBreadcrumbsWithHeading(heading: 'Banners', breadcrumbsItems: ['Banners']),
+            SizedBox(height: TSizes.spaceBtwSections,),
             TRoundedContainer(
               height: 500,
               child: Column(
                 children: [
                   TTableHeader(
-                    buttonText: 'Create New Brand',
-                    onPressed: () => Get.toNamed(TRoutes.createBrand),
+                    buttonText: 'Create New Banner',
+                    onPressed: () => Get.toNamed(TRoutes.createBanner),
                   ),
                   SizedBox(height: TSizes.spaceBtwItems),
-                  Expanded(child: BrandTable()),
+                  Expanded(child: BannersTable()),
                 ],
               ),
             )
