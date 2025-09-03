@@ -21,9 +21,9 @@ class TRoutes {
   static const createCategory = '/category/createCategory';
   static const editeCategory = '/editeCategory';
 
-  // static const brands = '/brands';
-  // static const createBrand = '/createBrand';
-  // static const editeBrand = '/editeBrand';
+  static const brands = '/brands';
+  static const createBrand = '/createBrand';
+  static const editeBrand = '/editeBrand';
   //
   // static const customers = '/customers';
   // static const createCustomer = '/createCustomer';
@@ -32,7 +32,8 @@ class TRoutes {
   static var sideBarMenuItems = [
     dashboard,
     media,
-    categories
+    categories,
+    brands
   ];
 
 

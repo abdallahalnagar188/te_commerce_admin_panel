@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:te_commerce_admin_panel/app.dart';
+import 'package:te_commerce_admin_panel/features/shop/screens/brands/create_brand/create_brand.dart';
+import 'package:te_commerce_admin_panel/features/shop/screens/brands/edit_brand/edit_brand.dart';
 import 'package:te_commerce_admin_panel/routes/route_middleware.dart';
 
 // import other screens as needed...
@@ -8,6 +10,7 @@ import '../features/auth/screens/forget_password/forget_password_screen.dart';
 import '../features/auth/screens/login/login_screen.dart';
 import '../features/auth/screens/reset_password/reset_password_screen.dart';
 import '../features/media/screens/media/media.dart';
+import '../features/shop/screens/brands/all_brands/brands.dart';
 import '../features/shop/screens/category/all_categories/categories.dart';
 import '../features/shop/screens/category/create_category/create_category.dart';
 import '../features/shop/screens/category/edit_category/edit_category.dart';
@@ -38,6 +41,10 @@ class TAppRoute {
     GetPage(name: TRoutes.createCategory, page: () => const CreateCategoryScreen(), middlewares: [TRouteMiddleware()]),
     GetPage(name: TRoutes.editeCategory, page: () => const EditCategoryScreen(), middlewares: [TRouteMiddleware()]),
 
+    // Brands
+    GetPage(name: TRoutes.brands, page: () => const BrandsScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.createBrand, page: () => const CreateBrandScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.editeBrand, page: () => const EditBrandScreen(), middlewares: [TRouteMiddleware()]),
     // You can continue with brands, customers, etc.
   ];
 }

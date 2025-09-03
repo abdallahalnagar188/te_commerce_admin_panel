@@ -14,7 +14,7 @@ class EditCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final category = Get.arguments ;
     return TSiteTemplate(
-      desktop: EditCategoryDesktopScreen(),
+      desktop: EditBrandDesktopScreen(),
       tablet: EditCategoryTabletScreen(),
       mobile: EditCategoryMobileScreen(),
     );
