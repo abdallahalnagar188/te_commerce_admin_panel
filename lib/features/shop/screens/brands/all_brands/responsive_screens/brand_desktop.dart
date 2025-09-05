@@ -14,30 +14,34 @@ class BrandsDesktopScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(TSizes.defaultSpace),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TBreadcrumbsWithHeading(
-                heading: 'Brands', breadcrumbsItems: ['Brands']),
-            SizedBox(
-              height: TSizes.spaceBtwSections,
-            ),
-            TRoundedContainer(
-              height: 500,
-              child: Column(
-                children: [
-                  TTableHeader(
-                    buttonText: 'Create New Brand',
-                    onPressed: () => Get.toNamed(TRoutes.createBrand),
-                  ),
-                  SizedBox(height: TSizes.spaceBtwItems),
-                  Expanded(child: BrandTable()),
-                ],
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(TSizes.defaultSpace),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TBreadcrumbsWithHeading(
+                  heading: 'Brands', breadcrumbsItems: ['Brands']),
+              SizedBox(
+                height: TSizes.spaceBtwSections,
               ),
-            )
-          ],
+              Expanded(
+                child: TRoundedContainer(
+                  height: 500,
+                  child: Column(
+                    children: [
+                      TTableHeader(
+                        buttonText: 'Create New Brand',
+                        onPressed: () => Get.toNamed(TRoutes.createBrand),
+                      ),
+                      SizedBox(height: TSizes.spaceBtwItems),
+                      Expanded(child: BrandTable()),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:te_commerce_admin_panel/app.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/brands/create_brand/create_brand.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/brands/edit_brand/edit_brand.dart';
+import 'package:te_commerce_admin_panel/features/shop/screens/customers/all_customers/customers.dart';
+import 'package:te_commerce_admin_panel/features/shop/screens/customers/customer_details/customer_details.dart';
 import 'package:te_commerce_admin_panel/routes/route_middleware.dart';
 
 // import other screens as needed...
@@ -29,8 +31,9 @@ class TAppRoute {
     GetPage(name: TRoutes.login, page: () => const LoginScreen()),
     GetPage(name: TRoutes.forgetPassword, page: () => const ForgetPasswordScreen()),
     GetPage(name: TRoutes.resetPassword, page: () => const ResetPasswordScreen()),
-     GetPage(name: TRoutes.dashboard, page: () => const DashboardScreen(),middlewares: [TRouteMiddleware()]),
-     GetPage(name: TRoutes.media, page: () => const MediaScreen(), middlewares: [TRouteMiddleware()]),
+
+    GetPage(name: TRoutes.dashboard, page: () => const DashboardScreen(),middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.media, page: () => const MediaScreen(), middlewares: [TRouteMiddleware()]),
 
     // Banners
     GetPage(name: TRoutes.banners, page: () => const BannersScreen(), middlewares: [TRouteMiddleware()]),
@@ -52,6 +55,14 @@ class TAppRoute {
     GetPage(name: TRoutes.brands, page: () => const BrandsScreen(), middlewares: [TRouteMiddleware()]),
     GetPage(name: TRoutes.createBrand, page: () => const CreateBrandScreen(), middlewares: [TRouteMiddleware()]),
     GetPage(name: TRoutes.editeBrand, page: () => const EditBrandScreen(), middlewares: [TRouteMiddleware()]),
+
+    // Customer
+    GetPage(name: TRoutes.customers, page: () => const CustomersScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.customerDetails, page: () => const CustomerDetailsScreen(), middlewares: [TRouteMiddleware()]),
+
+   // GetPage(name: TRoutes.orderDetails, page: () => const CustomerDetailsScreen(), middlewares: [TRouteMiddleware()]),
+
+
     // You can continue with brands, customers, etc.
   ];
 }

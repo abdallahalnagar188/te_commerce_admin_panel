@@ -47,6 +47,7 @@ class TSidebar extends StatelessWidget {
                     TMenuItem(icon: Iconsax.dcube,itemName: 'Brands',route: TRoutes.brands,),
                     TMenuItem(icon: Iconsax.picture_frame,itemName: 'Banners',route: TRoutes.banners,),
                     TMenuItem(icon: Iconsax.shopping_bag,itemName: 'Products',route: TRoutes.products,),
+                    TMenuItem(icon: Iconsax.profile_2user,itemName: 'Customers',route: TRoutes.customers,),
                   ],
                 ),
               )

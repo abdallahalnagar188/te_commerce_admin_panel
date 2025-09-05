@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:te_commerce_admin_panel/common/widgets/breadcrumbs/breadcrumbs_with_heading.dart';
 import 'package:te_commerce_admin_panel/common/widgets/containers/rounded_container.dart';
 import 'package:te_commerce_admin_panel/common/widgets/data_table/table_header.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/category/all_categories/table/data_table.dart';
-import 'package:te_commerce_admin_panel/routes/routes.dart';
 import 'package:te_commerce_admin_panel/utils/constants/sizes.dart';
 
-class CategoriesDesktopScreen extends StatelessWidget {
-  const CategoriesDesktopScreen({super.key});
+import '../table/data_table.dart';
+
+class CustomersDesktopScreen extends StatelessWidget {
+  const CustomersDesktopScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,26 +18,28 @@ class CategoriesDesktopScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TBreadcrumbsWithHeading(
-                  heading: 'Categories', breadcrumbsItems: ['Categories']),
-              SizedBox(
-                height: TSizes.spaceBtwSections,
+              /// Heading + Breadcrumbs
+              const TBreadcrumbsWithHeading(
+                heading: 'Customers',
+                breadcrumbsItems: ['Customers'],
               ),
+              const SizedBox(height: TSizes.spaceBtwSections),
+
+              /// Responsive expandable content
               Expanded(
                 child: TRoundedContainer(
-                  height: 500,
+                  // Instead of fixed height: make it fill available height
                   child: Column(
                     children: [
-                      TTableHeader(
-                        buttonText: 'Create New Category',
-                        onPressed: () => Get.toNamed(TRoutes.createCategory),
-                      ),
-                      SizedBox(height: TSizes.spaceBtwItems),
-                      Expanded(child: CategoryTable()),
+                      const TTableHeader(showLeftWidget: false),
+                      const SizedBox(height: TSizes.spaceBtwItems),
+
+                      /// Make table take the rest of available height
+                      Expanded(child: CustomersTable()),
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

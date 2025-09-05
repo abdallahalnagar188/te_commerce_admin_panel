@@ -24,10 +24,10 @@ class TRoutes {
   static const createBrand = '/createBrand';
   static const editeBrand = '/editeBrand';
 
-  //
-  // static const customers = '/customers';
-  // static const createCustomer = '/createCustomer';
-  // static const customerDetails = '/customerDetails';
 
-  static var sideBarMenuItems = [dashboard, media, categories, brands,banners,products];
+  static const customers = '/customers';
+  static const customerDetails = '/customerDetails';
+  static const orderDetails = '/orderDetails';
+
+  static var sideBarMenuItems = [dashboard, media, categories, brands,banners,products,customers];
 }

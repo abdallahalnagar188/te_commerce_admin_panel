@@ -14,25 +14,29 @@ class ProductsDesktopScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(TSizes.defaultSpace),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TBreadcrumbsWithHeading(heading: 'Products', breadcrumbsItems: ['Products']),
-            SizedBox(height: TSizes.spaceBtwSections,),
-            TRoundedContainer(
-              height: 500,
-              child: Column(
-                children: [
-                  TTableHeader(buttonText: 'Add Product', onPressed: () => Get.toNamed(TRoutes.createProduct),),
-                  SizedBox(height: TSizes.spaceBtwItems),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(TSizes.defaultSpace),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TBreadcrumbsWithHeading(heading: 'Products', breadcrumbsItems: ['Products']),
+              SizedBox(height: TSizes.spaceBtwSections,),
+              Expanded(
+                child: TRoundedContainer(
+                  height: 500,
+                  child: Column(
+                    children: [
+                      TTableHeader(buttonText: 'Add Product', onPressed: () => Get.toNamed(TRoutes.createProduct),),
+                      SizedBox(height: TSizes.spaceBtwItems),
 
-                  Expanded(child: ProductsTable()),
-                ],
-              ),
-            )
-          ],
+                      Expanded(child: ProductsTable()),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

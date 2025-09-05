@@ -14,27 +14,31 @@ class BannersDesktopScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(TSizes.defaultSpace),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TBreadcrumbsWithHeading(heading: 'Banners', breadcrumbsItems: ['Banners']),
-            SizedBox(height: TSizes.spaceBtwSections,),
-            TRoundedContainer(
-              height: 500,
-              child: Column(
-                children: [
-                  TTableHeader(
-                    buttonText: 'Create New Banner',
-                    onPressed: () => Get.toNamed(TRoutes.createBanner),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(TSizes.defaultSpace),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TBreadcrumbsWithHeading(heading: 'Banners', breadcrumbsItems: ['Banners']),
+              SizedBox(height: TSizes.spaceBtwSections,),
+              Expanded(
+                child: TRoundedContainer(
+                  height: 500,
+                  child: Column(
+                    children: [
+                      TTableHeader(
+                        buttonText: 'Create New Banner',
+                        onPressed: () => Get.toNamed(TRoutes.createBanner),
+                      ),
+                      SizedBox(height: TSizes.spaceBtwItems),
+                      Expanded(child: BannersTable()),
+                    ],
                   ),
-                  SizedBox(height: TSizes.spaceBtwItems),
-                  Expanded(child: BannersTable()),
-                ],
-              ),
-            )
-          ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
