@@ -18,6 +18,9 @@ import '../features/shop/screens/category/all_categories/categories.dart';
 import '../features/shop/screens/category/create_category/create_category.dart';
 import '../features/shop/screens/category/edit_category/edit_category.dart';
 import '../features/shop/screens/dashboard/dashboard_screen.dart';
+import '../features/shop/screens/products/all_products/products.dart';
+import '../features/shop/screens/products/create_product/create_product.dart';
+import '../features/shop/screens/products/edit_product/edit_product.dart';
 import 'routes.dart';
 
 class TAppRoute {
@@ -34,10 +37,10 @@ class TAppRoute {
     GetPage(name: TRoutes.createBanner, page: () => const CreateBannerScreen(), middlewares: [TRouteMiddleware()]),
     GetPage(name: TRoutes.editeBanner, page: () => const EditBannerScreen(), middlewares: [TRouteMiddleware()]),
 
-    // // Products
-    // GetPage(name: TRoutes.products, page: () => const ProductsScreen(), middlewares: [TRouteMiddleware()]),
-    // GetPage(name: TRoutes.createProduct, page: () => const CreateProductScreen(), middlewares: [TRouteMiddleware()]),
-    // GetPage(name: TRoutes.editeProduct, page: () => const EditProductScreen(), middlewares: [TRouteMiddleware()]),
+    // Products
+    GetPage(name: TRoutes.products, page: () => const ProductsScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.createProduct, page: () => const CreateProductScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.editeProduct, page: () => const EditProductScreen(), middlewares: [TRouteMiddleware()]),
 
 
     // Categories

@@ -11,10 +11,10 @@ class TRoutes {
   static const createBanner = '/createBanner';
   static const editeBanner = '/editeBanner';
 
-  //
-  // static const products = '/products';
-  // static const createProduct = '/createProduct';
-  // static const editeProduct = '/editeProduct';
+
+  static const products = '/products';
+  static const createProduct = '/createProduct';
+  static const editeProduct = '/editeProduct';
 
   static const categories = '/categories';
   static const createCategory = '/category/createCategory';
@@ -29,5 +29,5 @@ class TRoutes {
   // static const createCustomer = '/createCustomer';
   // static const customerDetails = '/customerDetails';
 
-  static var sideBarMenuItems = [dashboard, media, categories, brands,banners];
+  static var sideBarMenuItems = [dashboard, media, categories, brands,banners,products];
 }
