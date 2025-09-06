@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:te_commerce_admin_panel/app.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/brands/create_brand/create_brand.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/brands/edit_brand/edit_brand.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/customers/all_customers/customers.dart';
@@ -20,6 +19,8 @@ import '../features/shop/screens/category/all_categories/categories.dart';
 import '../features/shop/screens/category/create_category/create_category.dart';
 import '../features/shop/screens/category/edit_category/edit_category.dart';
 import '../features/shop/screens/dashboard/dashboard_screen.dart';
+import '../features/shop/screens/orders/all_orders/orders_screen.dart';
+import '../features/shop/screens/orders/order_details/order_details_screen.dart';
 import '../features/shop/screens/products/all_products/products.dart';
 import '../features/shop/screens/products/create_product/create_product.dart';
 import '../features/shop/screens/products/edit_product/edit_product.dart';
@@ -60,7 +61,8 @@ class TAppRoute {
     GetPage(name: TRoutes.customers, page: () => const CustomersScreen(), middlewares: [TRouteMiddleware()]),
     GetPage(name: TRoutes.customerDetails, page: () => const CustomerDetailsScreen(), middlewares: [TRouteMiddleware()]),
 
-   // GetPage(name: TRoutes.orderDetails, page: () => const CustomerDetailsScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.orders, page: () => const OrdersScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.orderDetails, page: () => const OrderDetailsScreen(), middlewares: [TRouteMiddleware()]),
 
 
     // You can continue with brands, customers, etc.

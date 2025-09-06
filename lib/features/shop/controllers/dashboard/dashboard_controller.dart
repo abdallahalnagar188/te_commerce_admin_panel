@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:te_commerce_admin_panel/utils/helpers/helper_functions.dart';
 
 import '../../../../utils/constants/enums.dart';
-import '../../models/order_model/order_model.dart';
+import '../../models/order_model.dart';
 
 class DashboardController extends GetxController {
   static DashboardController get instance => Get.find();
@@ -19,6 +19,7 @@ class DashboardController extends GetxController {
       totalAmount: 265,
       orderDate: DateTime(2024, 5, 20),
       deliveryDate: DateTime(2024, 5, 20),
+      items: [],
     ),
     OrderModel(
       id: 'CWT0025',
@@ -26,6 +27,7 @@ class DashboardController extends GetxController {
       totalAmount: 369,
       orderDate: DateTime(2024, 5, 21),
       deliveryDate: DateTime(2024, 5, 21),
+      items: [],
     ),
     OrderModel(
       id: 'CWT0152',
@@ -33,6 +35,7 @@ class DashboardController extends GetxController {
       totalAmount: 254,
       orderDate: DateTime(2024, 5, 22),
       deliveryDate: DateTime(2024, 5, 22),
+      items: [],
     ),
     OrderModel(
       id: 'CWT0265',
@@ -40,6 +43,7 @@ class DashboardController extends GetxController {
       totalAmount: 355,
       orderDate: DateTime(2024, 5, 23),
       deliveryDate: DateTime(2024, 5, 23),
+      items: [],
     ),
     OrderModel(
       id: 'CWT1536',
@@ -47,6 +51,7 @@ class DashboardController extends GetxController {
       totalAmount: 115,
       orderDate: DateTime(2024, 5, 24),
       deliveryDate: DateTime(2024, 5, 24),
+      items: [],
     ),
   ];
 

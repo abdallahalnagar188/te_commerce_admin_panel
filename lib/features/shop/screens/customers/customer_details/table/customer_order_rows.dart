@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:te_commerce_admin_panel/common/widgets/containers/rounded_container.dart';
-import 'package:te_commerce_admin_panel/features/shop/models/order_model/order_model.dart';
 import 'package:te_commerce_admin_panel/utils/helpers/helper_functions.dart';
 
 import '../../../../../../common/widgets/icons/table_action_icon_buttons.dart';
@@ -14,6 +13,7 @@ import '../../../../../../utils/constants/colors.dart';
 import '../../../../../../utils/constants/enums.dart';
 import '../../../../../../utils/constants/image_strings.dart';
 import '../../../../../../utils/constants/sizes.dart';
+import '../../../../models/order_model.dart';
 
 class CustomerOrderRows extends DataTableSource {
   @override
@@ -22,7 +22,8 @@ class CustomerOrderRows extends DataTableSource {
         id: 'id',
         status: OrderStatus.shipped,
         totalAmount: 233.4,
-        orderDate: DateTime.now());
+        orderDate: DateTime.now(),
+        items: []);
     const totalAmount = '2563,5';
 
     return DataRow2(

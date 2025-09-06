@@ -1,0 +1,16 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:te_commerce_admin_panel/features/shop/screens/orders/order_details/responsive_screens/order_details_desktop_screen.dart';
+import '../../../../../common/widgets/layouts/templates/site_layout.dart';
+
+class OrderDetailsScreen extends StatelessWidget {
+  const OrderDetailsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final order = Get.arguments;
+    return TSiteTemplate(
+      desktop: OrderDetailsDesktopScreen(order:order),
+    );
+  }
+}
