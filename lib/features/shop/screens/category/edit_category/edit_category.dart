@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:te_commerce_admin_panel/features/shop/models/category_model.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/category/edit_category/responsive_screens/edit_category_desktop.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/category/edit_category/responsive_screens/edit_category_mobile.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/category/edit_category/responsive_screens/edit_category_tablet.dart';
-
 import '../../../../../common/widgets/layouts/templates/site_layout.dart';
 
 class EditCategoryScreen extends StatelessWidget {
@@ -14,7 +11,7 @@ class EditCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final category = Get.arguments ;
     return TSiteTemplate(
-      desktop: EditBrandDesktopScreen(),
+      desktop: EditCategoryDesktopScreen(category: category,),
     );
   }
 }

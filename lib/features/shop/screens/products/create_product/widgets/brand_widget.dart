@@ -5,7 +5,7 @@ import 'package:te_commerce_admin_panel/utils/constants/image_strings.dart';
 import 'package:te_commerce_admin_panel/utils/constants/sizes.dart';
 
 import '../../../../../../common/widgets/containers/rounded_container.dart';
-import '../../../../../../data/repos/shop/brand_model.dart';
+import '../../../../models/brand_model.dart';
 
 class ProductBrand extends StatelessWidget {
   const ProductBrand({super.key});

@@ -40,17 +40,13 @@ class MediaContent extends StatelessWidget {
         children: [
           /// Media Image Header
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
                   // Folders Dropdown
-                  Text(
-                    'Select Folder',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const SizedBox(
-                    width: TSizes.spaceBtwItems,
-                  ),
+                  Text('Select Folder', style: Theme.of(context).textTheme.headlineSmall,),
+                  const SizedBox(width: TSizes.spaceBtwItems,),
                   MediaFolderDropdown(
                     onChanged: (MediaCategory? newValue) {
                       if (newValue != null) {
@@ -197,7 +193,7 @@ class MediaContent extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: TSizes.lg * 3),
       child: TAnimationLoaderWidget(
-        text: 'Select your Desried Folder',
+        text: 'Select your Desired Folder',
         animation: TImages.packageAnimation,
         width: 300,
         height: 300,

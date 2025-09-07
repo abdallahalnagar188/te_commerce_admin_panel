@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:te_commerce_admin_panel/common/widgets/icons/table_action_icon_buttons.dart';
+import 'package:te_commerce_admin_panel/features/shop/controllers/category/category_controller.dart';
 import 'package:te_commerce_admin_panel/routes/routes.dart';
 import 'package:te_commerce_admin_panel/utils/constants/image_strings.dart';
 
@@ -13,11 +14,15 @@ import '../../../../../../utils/constants/enums.dart';
 import '../../../../../../utils/constants/sizes.dart';
 
 class CategoryRows extends DataTableSource {
+  final controller = CategoryController.instance;
+
   @override
   DataRow getRow(int index) {
-   // final category = categories[index]; // assuming you have a categories list
-
+    final category = controller.filteredItems[index];
+    final parentCategory = controller.allItems.firstWhereOrNull((item) => item.id == category.parentId);
     return DataRow2(
+      selected: controller.selectedRows[index],
+      onSelectChanged: (value) => controller.selectedRows[index] = value ?? false,
       cells: [
         DataCell(
           Row(
@@ -26,7 +31,7 @@ class CategoryRows extends DataTableSource {
                 width: 50,
                 height: 50,
                 padding: TSizes.sm,
-                image: TImages.acerlogo,
+                image: category.image,
                 imageType: ImageType.network,
                 borderRadius: TSizes.borderRadiusMd,
                 backgroundColor: TColors.primaryBackground,
@@ -36,7 +41,7 @@ class CategoryRows extends DataTableSource {
 
               Expanded(
                 child: Text(
-                  'category.name',
+                  category.name,
                   style: Theme.of(Get.context!)
                       .textTheme
                       .bodyLarge!
@@ -49,12 +54,19 @@ class CategoryRows extends DataTableSource {
           ),
         ),
         // you can add more DataCells here
-        DataCell(Text('Parent')),
-        DataCell(Icon(Iconsax.heart5,color: TColors.primary,)),
-        DataCell(Text(DateTime.now().toString())),
+        DataCell(Text(parentCategory != null ? parentCategory.name : '')),
+        DataCell(category.isFeatured
+            ? Icon(
+                Iconsax.heart5,
+                color: TColors.primary,
+              )
+            : Icon(Iconsax.heart)),
+        DataCell(
+            Text(category.createdAt == null ? "" : category.formattedDate)),
         DataCell(TTableActionButtons(
-          onEditPressed: () => Get.toNamed(TRoutes.editeCategory,arguments:'category'),
-          onDeletePressed: (){},
+          onEditPressed: () =>
+              Get.toNamed(TRoutes.editeCategory, arguments: category),
+          onDeletePressed: () => controller.confirmAndDeleteItem(category),
         ))
       ],
     );
@@ -64,7 +76,7 @@ class CategoryRows extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => 10;
+  int get rowCount => controller.filteredItems.length;
 
   @override
   int get selectedRowCount => 0;

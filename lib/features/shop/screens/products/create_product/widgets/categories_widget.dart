@@ -5,7 +5,7 @@ import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 
 import '../../../../../../common/widgets/containers/rounded_container.dart';
-import '../../../../../../data/repos/shop/CategoryModel.dart';
+import '../../../../models/category_model.dart';
 
 class ProductCategories extends StatelessWidget {
   const ProductCategories({super.key});
@@ -14,11 +14,11 @@ class ProductCategories extends StatelessWidget {
   Widget build(BuildContext context) {
     // Sample categories data
     final List<CategoryModel> categories = [
-      CategoryModel(id: '1', name: 'Shoes', image: 'assets/shoes.png'),
-      CategoryModel(id: '2', name: 'Shirts', image: 'assets/shirts.png'),
-      CategoryModel(id: '3', name: 'Pants', image: 'assets/pants.png'),
-      CategoryModel(id: '4', name: 'Accessories', image: 'assets/accessories.png'),
-      CategoryModel(id: '5', name: 'Electronics', image: 'assets/electronics.png'),
+      CategoryModel(id: '1', name: 'Shoes', image: 'assets/shoes.png', isFeatured: true),
+      CategoryModel(id: '2', name: 'Shirts', image: 'assets/shirts.png', isFeatured: true),
+      CategoryModel(id: '3', name: 'Pants', image: 'assets/pants.png', isFeatured: true),
+      CategoryModel(id: '4', name: 'Accessories', image: 'assets/accessories.png', isFeatured: true),
+      CategoryModel(id: '5', name: 'Electronics', image: 'assets/electronics.png', isFeatured: true),
     ];
 
     // Convert to MultiSelectItem
