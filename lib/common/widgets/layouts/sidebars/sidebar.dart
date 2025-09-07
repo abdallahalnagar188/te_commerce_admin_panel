@@ -49,6 +49,12 @@ class TSidebar extends StatelessWidget {
                     TMenuItem(icon: Iconsax.shopping_bag,itemName: 'Products',route: TRoutes.products,),
                     TMenuItem(icon: Iconsax.profile_2user,itemName: 'Customers',route: TRoutes.customers,),
                     TMenuItem(icon: Iconsax.box,itemName: 'Orders',route: TRoutes.orders,),
+
+                    // Other Menu Items
+                    Text('OTHER',style: Theme.of(context).textTheme.bodySmall!.apply(letterSpacingDelta: 1.2),),
+                    TMenuItem(icon: Iconsax.user,itemName: 'Profile',route: TRoutes.profile,),
+                    TMenuItem(icon: Iconsax.setting_2,itemName: 'Settings',route: TRoutes.settings,),
+                    TMenuItem(icon: Iconsax.logout,itemName: 'Logout',route:'logout'),
                   ],
                 ),
               )

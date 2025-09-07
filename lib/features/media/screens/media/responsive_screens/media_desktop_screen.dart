@@ -30,7 +30,7 @@ class MediaDesktopScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TBreadcrumbsWithHeading(
-                    breadcrumbsItems: [TRoutes.login, TRoutes.forgetPassword],
+                    breadcrumbsItems: [],
                     heading: 'Media Screen',
                   ),
 

@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:te_commerce_admin_panel/features/personalization/screens/profile/profile.dart';
+import 'package:te_commerce_admin_panel/features/personalization/screens/settings/settings.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/brands/create_brand/create_brand.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/brands/edit_brand/edit_brand.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/customers/all_customers/customers.dart';
@@ -61,10 +63,14 @@ class TAppRoute {
     GetPage(name: TRoutes.customers, page: () => const CustomersScreen(), middlewares: [TRouteMiddleware()]),
     GetPage(name: TRoutes.customerDetails, page: () => const CustomerDetailsScreen(), middlewares: [TRouteMiddleware()]),
 
+    // Orders
     GetPage(name: TRoutes.orders, page: () => const OrdersScreen(), middlewares: [TRouteMiddleware()]),
     GetPage(name: TRoutes.orderDetails, page: () => const OrderDetailsScreen(), middlewares: [TRouteMiddleware()]),
 
+    // Profile and Settings
+    GetPage(name: TRoutes.profile, page: () => const ProfileScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.settings, page: () => const SettingsScreen(), middlewares: [TRouteMiddleware()]),
 
-    // You can continue with brands, customers, etc.
+
   ];
 }

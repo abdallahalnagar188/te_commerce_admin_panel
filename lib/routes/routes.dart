@@ -2,6 +2,7 @@ class TRoutes {
   static const responsiveDesignTutorialScreen = '/responsive-design-tutorial/';
 
   static const login = '/login';
+  static const logout = '/logout';
   static const forgetPassword = '/forget-password/';
   static const resetPassword = '/reset-password';
 
@@ -30,6 +31,10 @@ class TRoutes {
   static const orders = '/orders';
   static const orderDetails = '/orderDetails';
 
+  static const coupons = '/coupons';
+  static const settings = '/settings';
+  static const profile = '/profile';
+
   static var sideBarMenuItems = [
     dashboard,
     media,
@@ -38,6 +43,9 @@ class TRoutes {
     banners,
     products,
     customers,
-    orders
+    orders,
+    coupons,
+    settings,
+    profile
   ];
 }
