@@ -1,9 +1,9 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:te_commerce_admin_panel/common/widgets/icons/table_action_icon_buttons.dart';
+import 'package:te_commerce_admin_panel/features/shop/controllers/brand/brand_controller.dart';
 import 'package:te_commerce_admin_panel/routes/routes.dart';
 import 'package:te_commerce_admin_panel/utils/constants/image_strings.dart';
 import 'package:te_commerce_admin_panel/utils/device/device_utility.dart';
@@ -14,11 +14,15 @@ import '../../../../../../utils/constants/enums.dart';
 import '../../../../../../utils/constants/sizes.dart';
 
 class BrandRows extends DataTableSource {
+  final controller = BrandController.instance;
+
   @override
   DataRow getRow(int index) {
-    // final category = categories[index]; // assuming you have a categories list
-
+    final brand = controller.filteredItems[index];
     return DataRow2(
+      selected: controller.selectedRows[index],
+      onSelectChanged: (value) =>
+          controller.selectedRows[index] = value ?? false,
       cells: [
         DataCell(
           Row(
@@ -27,7 +31,7 @@ class BrandRows extends DataTableSource {
                 width: 50,
                 height: 50,
                 padding: TSizes.sm,
-                image: TImages.adidasLogo,
+                image: brand.image,
                 imageType: ImageType.network,
                 borderRadius: TSizes.borderRadiusMd,
                 backgroundColor: TColors.primaryBackground,
@@ -37,7 +41,7 @@ class BrandRows extends DataTableSource {
 
               Expanded(
                 child: Text(
-                  'Adidas',
+                  brand.name,
                   style: Theme.of(Get.context!)
                       .textTheme
                       .bodyLarge!
@@ -56,29 +60,35 @@ class BrandRows extends DataTableSource {
             scrollDirection: Axis.vertical,
             child: Wrap(
               spacing: TSizes.xs,
-              direction: TDeviceUtils.isMobileScreen(Get.context!) ? Axis.vertical : Axis.horizontal,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: TDeviceUtils.isMobileScreen(Get.context!) ? 0 : TSizes.xs),
-                  child: Chip(label: Text('Shoes'), padding: EdgeInsets.all(TSizes.xs),),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: TDeviceUtils.isMobileScreen(Get.context!) ? 0 : TSizes.xs),
-                  child: Chip(label: Text('TrackSuits'), padding: EdgeInsets.all(TSizes.xs),),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: TDeviceUtils.isMobileScreen(Get.context!) ? 0 : TSizes.xs),
-                  child: Chip(label: Text('Joggers'), padding: EdgeInsets.all(TSizes.xs),),
-                ),
-              ],
+              direction: TDeviceUtils.isMobileScreen(Get.context!)
+                  ? Axis.vertical
+                  : Axis.horizontal,
+              children: brand.brandCategories != null
+                  ? brand.brandCategories!
+                      .map(
+                        (e) => Padding(
+                          padding: EdgeInsets.only(
+                            bottom: TDeviceUtils.isMobileScreen(Get.context!)
+                                ? 0
+                                : TSizes.xs,
+                          ),
+                          child: Chip(
+                            label: Text(e.name),
+                            padding: EdgeInsets.all(TSizes.xs),
+                          ),
+                        ),
+                      )
+                      .toList()
+                  : [const SizedBox()],
             ),
           ),
         )),
-        DataCell(Icon(Iconsax.heart5, color: TColors.primary,)),
-        DataCell(Text(DateTime.now().toString())),
+        DataCell( brand.isFeatured!? Icon(Iconsax.heart5, color: TColors.primary,):Icon(Iconsax.heart)),
+        DataCell(Text(brand.createdAt != null ? brand.formattedDate :'')),
         DataCell(TTableActionButtons(
-          onEditPressed: () => Get.toNamed(TRoutes.editeBrand, arguments: 'brand'),
-          onDeletePressed: () {},
+          onEditPressed: () =>
+              Get.toNamed(TRoutes.editeBrand, arguments: brand),
+          onDeletePressed: () => controller.confirmAndDeleteItem(brand),
         ))
       ],
     );
@@ -88,8 +98,8 @@ class BrandRows extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => 20;
+  int get rowCount => controller.filteredItems.length;
 
   @override
-  int get selectedRowCount => 0;
+  int get selectedRowCount => controller.selectedRows.where((selected) => selected).length;
 }

@@ -1,5 +1,7 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:te_commerce_admin_panel/features/shop/models/category_model.dart';
+
+import '../../../utils/formatters/formatter.dart';
 
 class BrandModel {
   String id;
@@ -7,24 +9,37 @@ class BrandModel {
   String name;
   int? productsCount;
   bool? isFeatured;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
-  BrandModel({
-    required this.id,
-    required this.image,
-    required this.name,
-    this.productsCount,
-    this.isFeatured,
-  });
+  // Not mapped
+  List<CategoryModel>? brandCategories;
+
+  BrandModel(
+      {required this.id,
+      required this.image,
+      required this.name,
+      this.productsCount,
+      this.isFeatured,
+      this.createdAt,
+      this.updatedAt,
+      this.brandCategories});
 
   static BrandModel empty() => BrandModel(id: '', image: '', name: '');
 
-  Map<String, dynamic>toJson() {
+  String get formattedDate => TFormatter.formatDate(createdAt);
+
+  String get formattedUpdatedAtDate => TFormatter.formatDate(updatedAt);
+
+  Map<String, dynamic> toJson() {
     return {
       'Id': id,
       'Name': name,
       'Image': image,
       'ProductsCount': productsCount,
       'IsFeatured': isFeatured,
+      'CreatedAt': createdAt,
+      'UpdatedAt': updatedAt = DateTime.now()
     };
   }
 
@@ -44,8 +59,8 @@ class BrandModel {
   /// map json from firebase to UserModel
 
   factory BrandModel.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> document,
-      ) {
+    DocumentSnapshot<Map<String, dynamic>> document,
+  ) {
     if (document.data() != null) {
       final data = document.data()!;
 
@@ -54,9 +69,13 @@ class BrandModel {
         name: data['Name'] ?? '',
         image: data['Image'] ?? '',
         isFeatured: data['IsFeatured'] ?? false,
-        productsCount: data['ProductsCount'] ?? ''
+        productsCount: data['ProductsCount'] ?? '',
+        createdAt:
+            data.containsKey('CreatedAt') ? data['CreatedAt']?.toDate() : null,
+        updatedAt:
+            data.containsKey('UpdatedAt') ? data['UpdatedAt']?.toDate() : null,
       );
-    }else{
+    } else {
       return BrandModel.empty();
     }
   }
@@ -86,13 +105,13 @@ class BrandModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is BrandModel &&
-              runtimeType == other.runtimeType &&
-              id == other.id &&
-              image == other.image &&
-              name == other.name &&
-              productsCount == other.productsCount &&
-              isFeatured == other.isFeatured;
+      other is BrandModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          image == other.image &&
+          name == other.name &&
+          productsCount == other.productsCount &&
+          isFeatured == other.isFeatured;
 
   @override
   int get hashCode =>
@@ -101,5 +120,4 @@ class BrandModel {
       name.hashCode ^
       productsCount.hashCode ^
       isFeatured.hashCode;
-
 }
