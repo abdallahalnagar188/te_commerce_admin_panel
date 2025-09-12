@@ -23,11 +23,8 @@ class BrandsDesktopScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TBreadcrumbsWithHeading(
-                  heading: 'Brands', breadcrumbsItems: ['Brands']),
-              SizedBox(
-                height: TSizes.spaceBtwSections,
-              ),
+              TBreadcrumbsWithHeading(heading: 'Brands', breadcrumbsItems: ['Brands']),
+              SizedBox(height: TSizes.spaceBtwSections,),
               Expanded(
                 child: TRoundedContainer(
                   height: 500,
