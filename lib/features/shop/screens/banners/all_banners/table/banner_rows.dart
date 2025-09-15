@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:te_commerce_admin_panel/common/widgets/icons/table_action_icon_buttons.dart';
+import 'package:te_commerce_admin_panel/features/shop/controllers/banner/banner_controller.dart';
 import 'package:te_commerce_admin_panel/routes/routes.dart';
 import 'package:te_commerce_admin_panel/utils/constants/image_strings.dart';
 import 'package:te_commerce_admin_panel/utils/device/device_utility.dart';
@@ -14,11 +15,16 @@ import '../../../../../../utils/constants/enums.dart';
 import '../../../../../../utils/constants/sizes.dart';
 
 class BannerRows extends DataTableSource {
+  final controller = BannerController.instance;
+
   @override
   DataRow getRow(int index) {
-    // final category = categories[index]; // assuming you have a categories list
+    final banner = controller.filteredItems[index];
 
     return DataRow2(
+      selected: controller.selectedRows[index],
+      onTap: () => Get.toNamed(TRoutes.editeBanner, arguments: banner),
+      onSelectChanged: (value) => controller.selectedRows[index] = value ?? false,
       cells: [
         DataCell(
           Row(
@@ -27,8 +33,8 @@ class BannerRows extends DataTableSource {
                 width: 180,
                 height: 100,
                 padding: TSizes.sm,
-                image: TImages.banner1,
-                imageType: ImageType.asset,
+                image: banner.imageUrl,
+                imageType: ImageType.network,
                 borderRadius: TSizes.borderRadiusMd,
                 backgroundColor: TColors.primaryBackground,
               ), // TRoundedImage
@@ -37,11 +43,11 @@ class BannerRows extends DataTableSource {
           ),
         ),
         // you can add more DataCells here
-        DataCell(Text('Shop')),
-        DataCell(Icon(Iconsax.eye, color: TColors.primary,)),
+        DataCell(Text(controller.formatRoute(banner.targetScreen))),
+        DataCell( banner.active? Icon(Iconsax.eye, color: TColors.primary,) : Icon(Iconsax.eye_slash)),
         DataCell(TTableActionButtons(
-          onEditPressed: () => Get.toNamed(TRoutes.editeBanner, arguments: 'banner'),
-          onDeletePressed: () {},
+          onEditPressed: () => Get.toNamed(TRoutes.editeBanner, arguments: banner),
+          onDeletePressed: () => controller.confirmAndDeleteItem(banner),
         ))
       ],
     );
@@ -51,8 +57,8 @@ class BannerRows extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => 20;
+  int get rowCount => controller.filteredItems.length;
 
   @override
-  int get selectedRowCount => 0;
+  int get selectedRowCount => controller.selectedRows.where((selected) => selected).length;
 }

@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BannerModel {
+  String? id;
   String imageUrl;
-  final String targetScreen;
-  final bool active;
+   String targetScreen;
+   bool active;
 
   BannerModel({
+    this.id,
     required this.imageUrl,
     required this.targetScreen,
     required this.active,
@@ -23,6 +25,7 @@ class BannerModel {
     final data = snapshot.data() as Map<String, dynamic>;
 
     return BannerModel(
+      id: snapshot.id,
       imageUrl: data['imageUrl'] ?? '',
       targetScreen: data['targetScreen'] ?? '',
       active: data['active'] ?? false,

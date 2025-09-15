@@ -5,11 +5,13 @@ import 'package:te_commerce_admin_panel/features/shop/screens/category/edit_cate
 import '../../../../../../common/widgets/breadcrumbs/breadcrumbs_with_heading.dart';
 import '../../../../../../routes/routes.dart';
 import '../../../../../../utils/constants/sizes.dart';
+import '../../../../models/banner_model.dart';
 import '../widgets/edit_banner_form.dart';
 
 class EditBannerDesktopScreen extends StatelessWidget {
-  const EditBannerDesktopScreen({super.key});
+  const EditBannerDesktopScreen({super.key, required this.banner});
 
+  final BannerModel banner;
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -22,7 +24,7 @@ class EditBannerDesktopScreen extends StatelessWidget {
               TBreadcrumbsWithHeading(heading: 'Update Banner', breadcrumbsItems: [TRoutes.categories,'update banner'],returnToPreviousScreen: true,),
               SizedBox(height: TSizes.spaceBtwSections,),
 
-              EditBannerForm()
+              EditBannerForm(banner: banner,)
             ],
           ),
         ),
