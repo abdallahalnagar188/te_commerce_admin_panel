@@ -20,7 +20,7 @@ final categoryRepo = Get.put(CategoryRepo());
   }
 
   @override
-  Future<void> deleteItems(CategoryModel item) async{
+  Future<void> deleteItem(CategoryModel item) async{
     await categoryRepo.deleteCategory(item.id);
   }
 

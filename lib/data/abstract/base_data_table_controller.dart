@@ -29,7 +29,7 @@ abstract class TBaseController<T> extends GetxController {
 
   Future<List<T>> fetchItems() ;
 
-  Future<void> deleteItems(T item) ;
+  Future<void> deleteItem(T item) ;
 
   bool containsSearchQuery(T item,String query);
 
@@ -129,7 +129,7 @@ abstract class TBaseController<T> extends GetxController {
       TFullScreenLoader.stopLoading();
 
       TFullScreenLoader.popUpCircular();
-      await deleteItems(item);
+      await deleteItem(item);
       removeItemFromTheList(item);
       TFullScreenLoader.stopLoading();
       TLoaders.successSnackBar(

@@ -17,7 +17,7 @@ class BrandController extends TBaseController<BrandModel>{
   }
 
   @override
-  Future<void> deleteItems(BrandModel item) async {
+  Future<void> deleteItem(BrandModel item) async {
    BrandRepo.instance.deleteBrand(item);
   }
 

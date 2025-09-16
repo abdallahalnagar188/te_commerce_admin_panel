@@ -27,10 +27,11 @@ class THeader extends StatelessWidget implements PreferredSizeWidget {
       padding: EdgeInsets.symmetric(horizontal: TSizes.md, vertical: TSizes.sm),
       child: AppBar(
         /// Mobile menu
+        automaticallyImplyLeading: !TDeviceUtils.isDesktopScreen(context),
         leading: !TDeviceUtils.isDesktopScreen(context)
             ? IconButton(
-                onPressed: () => scaffoldKey?.currentState?.openDrawer(),
-                icon: Icon(Iconsax.menu))
+            onPressed: () => scaffoldKey?.currentState?.openDrawer(),
+            icon: Icon(Iconsax.menu))
             : null,
 
         /// Search Field
@@ -101,7 +102,6 @@ class THeader extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  // TODO: implement preferredSize
   Size get preferredSize =>
       Size.fromHeight(TDeviceUtils.getAppBarHeight() + 15);
 }
