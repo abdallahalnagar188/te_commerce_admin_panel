@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:te_commerce_admin_panel/features/shop/controllers/product/edit_product_controller.dart';
 
 import '../../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../../../utils/constants/sizes.dart';
@@ -10,9 +11,10 @@ import '../../../../controllers/product/create_product_controller.dart';
 class ProductTitleAndDescription extends StatelessWidget {
   const ProductTitleAndDescription({super.key});
 
+
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CreateProductController());
+    final controller = Get.put(EditProductController());
     return TRoundedContainer(
       child: Form(
         key: controller.titleDescriptionFormKey,
@@ -26,7 +28,6 @@ class ProductTitleAndDescription extends StatelessWidget {
             // Product Title Input Field
             TextFormField(
               controller: controller.title,
-
               validator: (value) =>
                   TValidator.validateEmptyText('Product Title', value),
               decoration: const InputDecoration(

@@ -60,6 +60,40 @@ class ProductRepo extends GetxController {
       throw 'Something went wrong : $e';
     }
   }
+  // remove product category
+  Future<void> removeProductCategory(String productId, String categoryId) async {
+    try {
+      final querySnapshot = await _db.collection('ProductCategory')
+          .where('productId', isEqualTo: productId)
+          .where('categoryId', isEqualTo: categoryId)
+          .get();
+      for (final doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    }
+    on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong : $e';
+    }
+  }
+
+  // Get Product Categories
+  Future<List<ProductCategoryModel>> getProductCategories(String productId) async {
+    try {
+      final snapshot = await _db.collection('ProductCategory').where('productId', isEqualTo: productId).get();
+      final result = snapshot.docs.map((doc) => ProductCategoryModel.fromSnapshot(doc)).toList();
+      return result;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong : $e';
+    }
+  }
 
 
   Future<void> updateProduct(ProductModel product) async {

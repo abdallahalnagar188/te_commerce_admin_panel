@@ -9,12 +9,11 @@ import '../../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../../../utils/constants/colors.dart';
 
 class ProductAdditionalImages extends StatelessWidget {
-  const ProductAdditionalImages({
-    super.key,
-    required this.additionalProductImagesURLs,
-    this.onTapToAddImages,
-    this.onTapToRemoveImage,
-  });
+  const ProductAdditionalImages(
+      {super.key,
+      required this.additionalProductImagesURLs,
+      this.onTapToAddImages,
+      this.onTapToRemoveImage});
 
   final RxList<String> additionalProductImagesURLs;
   final void Function()? onTapToAddImages;
@@ -26,7 +25,6 @@ class ProductAdditionalImages extends StatelessWidget {
       height: 300,
       child: Column(
         children: [
-          // Section to Add Additional Product Images
           Expanded(
             flex: 2,
             child: GestureDetector(
@@ -37,7 +35,7 @@ class ProductAdditionalImages extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Image.asset(
-                        TImages.defaultImage,
+                       TImages.defaultImage,
                         width: 50,
                         height: 50,
                         color: Colors.grey[700],
@@ -51,11 +49,11 @@ class ProductAdditionalImages extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
+                  ), // Column
+                ), // Center
+              ), // TRoundedContainer
             ),
-          ),
+          ), // GestureDetector
 
           const SizedBox(height: 16),
 
@@ -70,7 +68,9 @@ class ProductAdditionalImages extends StatelessWidget {
                     child: _uploadedImagesOrEmptyList(),
                   ),
                 ),
-                const SizedBox(width: TSizes.spaceBtwItems / 2),
+                const SizedBox(
+                  width: TSizes.spaceBtwItems / 2,
+                ),
 
                 // Add More Images Button
                 TRoundedContainer(
@@ -80,8 +80,8 @@ class ProductAdditionalImages extends StatelessWidget {
                   borderColor: TColors.grey,
                   backgroundColor: TColors.white,
                   onTap: onTapToAddImages,
-                  child: const Center(child: Icon(Iconsax.add)),
-                ),
+                  child: Center(child: Icon(Iconsax.add)),
+                )
               ],
             ),
           ),
@@ -97,9 +97,6 @@ class ProductAdditionalImages extends StatelessWidget {
       } else {
         return ListView.separated(
           scrollDirection: Axis.horizontal,
-          itemCount: additionalProductImagesURLs.length,
-          separatorBuilder: (context, index) =>
-          const SizedBox(width: TSizes.spaceBtwItems / 2),
           itemBuilder: (context, index) {
             final imageUrl = additionalProductImagesURLs[index];
             return Stack(
@@ -115,8 +112,6 @@ class ProductAdditionalImages extends StatelessWidget {
                       fit: BoxFit.cover,
                       width: 80,
                       height: 80,
-                      errorBuilder: (context, error, stackTrace) =>
-                      const Icon(Icons.broken_image, size: 30),
                     ),
                   ),
                 ),
@@ -126,12 +121,7 @@ class ProductAdditionalImages extends StatelessWidget {
                   top: 4,
                   right: 4,
                   child: GestureDetector(
-                    onTap: () {
-                      if (index >= 0 &&
-                          index < additionalProductImagesURLs.length) {
-                        onTapToRemoveImage?.call(index);
-                      }
-                    },
+                    onTap: () => onTapToRemoveImage?.call(index),
                     child: Container(
                       decoration: const BoxDecoration(
                         color: Colors.black54,
@@ -149,6 +139,9 @@ class ProductAdditionalImages extends StatelessWidget {
               ],
             );
           },
+          separatorBuilder: (context, index) =>
+          const SizedBox(width: TSizes.spaceBtwItems / 2),
+          itemCount: additionalProductImagesURLs.length,
         );
       }
     });
@@ -156,16 +149,8 @@ class ProductAdditionalImages extends StatelessWidget {
 
   Widget emptyList() {
     return ListView.separated(
-      scrollDirection: Axis.horizontal,
-      itemCount: 1, // just 1 placeholder box
-      itemBuilder: (context, index) => const TRoundedContainer(
-        backgroundColor: TColors.primaryBackground,
-        width: 80,
-        height: 80,
-      ),
-      separatorBuilder: (context, index) =>
-      const SizedBox(width: TSizes.spaceBtwItems / 2),
-    );
+        itemBuilder: (context, index) => const TRoundedContainer(backgroundColor: TColors.primaryBackground, width: 80, height: 80,),
+        separatorBuilder: (context, index) => const SizedBox(width: TSizes.spaceBtwItems / 2,),
+        itemCount: 6);
   }
 }
-

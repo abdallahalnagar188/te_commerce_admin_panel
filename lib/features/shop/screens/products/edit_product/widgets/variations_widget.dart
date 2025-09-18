@@ -14,6 +14,7 @@ import '../../../../../../utils/constants/colors.dart';
 import '../../../../../../utils/constants/enums.dart';
 import '../../../../../../utils/constants/image_strings.dart';
 import '../../../../../../utils/constants/sizes.dart';
+import '../../../../controllers/product/edit_product_controller.dart';
 import '../../../../controllers/product/product_variations_controller.dart';
 import '../../../../models/product_varation_model.dart';
 
@@ -24,7 +25,7 @@ class ProductVariations extends StatelessWidget {
   Widget build(BuildContext context) {
     final variationController = Get.put(ProductVariationsController());
     return Obx(
-      () => CreateProductController.instance.productType.value == ProductType.variable?
+      () => EditProductController.instance.productType.value == ProductType.variable?
           TRoundedContainer(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

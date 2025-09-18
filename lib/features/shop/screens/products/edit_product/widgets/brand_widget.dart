@@ -6,17 +6,19 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:te_commerce_admin_panel/common/widgets/shimmers/shimmer.dart';
 import 'package:te_commerce_admin_panel/features/shop/controllers/brand/brand_controller.dart';
+import 'package:te_commerce_admin_panel/features/shop/controllers/product/edit_product_controller.dart';
 import 'package:te_commerce_admin_panel/utils/constants/sizes.dart';
 
 import '../../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../controllers/product/create_product_controller.dart';
+import '../../../../models/brand_model.dart';
 
 class ProductBrand extends StatelessWidget {
   const ProductBrand({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CreateProductController());
+    final controller = Get.put(EditProductController());
     final brandController = Get.put(BrandController());
 
     if (brandController.allItems.isEmpty) {

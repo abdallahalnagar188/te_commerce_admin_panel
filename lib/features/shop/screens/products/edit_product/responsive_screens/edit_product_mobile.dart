@@ -5,25 +5,27 @@ import '../../../../../../common/widgets/breadcrumbs/breadcrumbs_with_heading.da
 import '../../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../../../routes/routes.dart';
 import '../../../../../../utils/constants/sizes.dart';
-import '../../create_product/widgets/additional_images.dart';
-import '../../create_product/widgets/attributes_widget.dart';
-import '../../create_product/widgets/bottom_navigation_widget.dart';
-import '../../create_product/widgets/brand_widget.dart';
-import '../../create_product/widgets/categories_widget.dart';
-import '../../create_product/widgets/product_type_widget.dart';
-import '../../create_product/widgets/stock_pricing_widget.dart';
-import '../../create_product/widgets/thumbnail_widget.dart';
-import '../../create_product/widgets/title_description.dart';
-import '../../create_product/widgets/variations_widget.dart';
-import '../../create_product/widgets/visibility_widget.dart';
+import '../../../../models/product_model.dart';
+import '../widgets/additional_images.dart' show ProductAdditionalImages;
+import '../widgets/attributes_widget.dart' show ProductAttributes;
+import '../widgets/bottom_navigation_widget.dart';
+import '../widgets/brand_widget.dart' show ProductBrand;
+import '../widgets/categories_widget.dart';
+import '../widgets/product_type_widget.dart' show ProductTypeWidget;
+import '../widgets/stock_pricing_widget.dart' show ProductStockAndPricing;
+import '../widgets/thumbnail_widget.dart' show ProductThumbnailImage;
+import '../widgets/title_description.dart';
+import '../widgets/variations_widget.dart' show ProductVariations;
+import '../widgets/visibility_widget.dart' show ProductVisibilityWidget;
 
 class EditProductMobileScreen extends StatelessWidget {
-  const EditProductMobileScreen({super.key});
+  const EditProductMobileScreen({super.key, required this.product});
 
+  final ProductModel product;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const ProductBottomNavigationButtons(),
+      bottomNavigationBar:  ProductBottomNavigationButtons(product: product,),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -108,7 +110,7 @@ class EditProductMobileScreen extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceBtwSections),
 
                   // Product Categories
-                  const ProductCategories(),
+                  ProductCategories(product: product),
                   const SizedBox(height: TSizes.spaceBtwSections),
 
                   // Product Visibility

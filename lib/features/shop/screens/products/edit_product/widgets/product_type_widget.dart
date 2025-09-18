@@ -7,13 +7,14 @@ import '../../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../../../utils/constants/sizes.dart';
 import '../../../../../../utils/validators/validation.dart';
 import '../../../../controllers/product/create_product_controller.dart';
+import '../../../../controllers/product/edit_product_controller.dart';
 
 class ProductTypeWidget extends StatelessWidget {
   const ProductTypeWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = CreateProductController.instance;
+    final controller = EditProductController.instance;
     return Obx(
       () => Row(
         children: [

@@ -1,38 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/brands/edit_brand/widgets/edit_brand_form.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/category/edit_category/widgets/edit_category_form.dart';
-
-import '../../../../../../common/widgets/breadcrumbs/breadcrumbs_with_heading.dart';
-import '../../../../../../routes/routes.dart';
-import '../../../../../../utils/constants/sizes.dart';
-import '../widgets/edit_banner_form.dart';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:te_commerce_admin_panel/common/widgets/containers/rounded_container.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/products/create_product/widgets/additional_images.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/products/create_product/widgets/attributes_widget.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/products/create_product/widgets/bottom_navigation_widget.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/products/create_product/widgets/brand_widget.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/products/create_product/widgets/categories_widget.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/products/create_product/widgets/product_type_widget.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/products/create_product/widgets/stock_pricing_widget.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/products/create_product/widgets/thumbnail_widget.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/products/create_product/widgets/title_description.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/products/create_product/widgets/variations_widget.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/products/create_product/widgets/visibility_widget.dart';
-import 'package:te_commerce_admin_panel/utils/device/device_utility.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:te_commerce_admin_panel/features/shop/controllers/product/product_images_controller.dart';
+
 import '../../../../../../common/widgets/breadcrumbs/breadcrumbs_with_heading.dart';
+import '../../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../../../routes/routes.dart';
 import '../../../../../../utils/constants/sizes.dart';
+import '../../../../../../utils/device/device_utility.dart';
+import '../../../../controllers/product/edit_product_controller.dart';
+import '../../../../models/product_model.dart';
+import '../widgets/additional_images.dart';
+import '../widgets/attributes_widget.dart';
+import '../widgets/bottom_navigation_widget.dart';
+import '../widgets/brand_widget.dart';
+import '../widgets/categories_widget.dart';
+import '../widgets/product_type_widget.dart';
+import '../widgets/stock_pricing_widget.dart';
+import '../widgets/thumbnail_widget.dart';
+import '../widgets/title_description.dart';
+import '../widgets/variations_widget.dart';
+import '../widgets/visibility_widget.dart';
+
 
 class EditProductDesktopScreen extends StatelessWidget {
-  const EditProductDesktopScreen({super.key});
+  const EditProductDesktopScreen({super.key, required this.product});
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
+    final productImageController = Get.put(ProductImageController());
+    productImageController.additionalProductImagesUrls.assignAll(product.images ?? []);
+
     return Scaffold(
-      bottomNavigationBar: ProductBottomNavigationButtons(),
+      bottomNavigationBar: ProductBottomNavigationButtons(product: product,),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(TSizes.defaultSpace),
@@ -40,8 +43,8 @@ class EditProductDesktopScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TBreadcrumbsWithHeading(
-                heading: 'Create Product',
-                breadcrumbsItems: [TRoutes.products, 'create product'],
+                heading: 'Update Product',
+                breadcrumbsItems: [TRoutes.products, 'update product'],
                 returnToPreviousScreen: true,
               ),
               SizedBox(
@@ -131,10 +134,11 @@ class EditProductDesktopScreen extends StatelessWidget {
                                   height: TSizes.spaceBtwItems,
                                 ),
                                 ProductAdditionalImages(
-                                  additionalProductImagesURLs: RxList<String>.empty(),
-                                  onTapToAddImages: () {},
-                                  onTapToRemoveImage: (index) {},
+                                  additionalProductImagesURLs: productImageController.additionalProductImagesUrls,
+                                  onTapToAddImages: () => productImageController.selectMultipleProductImages(),
+                                  onTapToRemoveImage: (index) => productImageController.removeImage(index),
                                 )
+
                               ],
                             ),
                           ),
@@ -146,7 +150,7 @@ class EditProductDesktopScreen extends StatelessWidget {
                           SizedBox(height: TSizes.spaceBtwSections,),
 
                           // Product Categories
-                          const ProductCategories(),
+                           ProductCategories(product:product ,),
                           SizedBox(height: TSizes.spaceBtwSections,),
 
                           // Product Visibility

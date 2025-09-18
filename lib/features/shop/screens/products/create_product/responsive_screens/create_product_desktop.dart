@@ -16,12 +16,14 @@ import 'package:te_commerce_admin_panel/utils/device/device_utility.dart';
 import '../../../../../../common/widgets/breadcrumbs/breadcrumbs_with_heading.dart';
 import '../../../../../../routes/routes.dart';
 import '../../../../../../utils/constants/sizes.dart';
+import '../../../../controllers/product/product_images_controller.dart';
 
 class CreateProductDesktopScreen extends StatelessWidget {
   const CreateProductDesktopScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller =  Get.put(ProductImageController());
     return Scaffold(
       bottomNavigationBar: ProductBottomNavigationButtons(),
       body: SingleChildScrollView(
@@ -35,9 +37,7 @@ class CreateProductDesktopScreen extends StatelessWidget {
                 breadcrumbsItems: [TRoutes.products, 'create product'],
                 returnToPreviousScreen: true,
               ),
-              SizedBox(
-                height: TSizes.spaceBtwSections,
-              ),
+              SizedBox(height: TSizes.spaceBtwSections),
 
               // Create Product
               Row(
@@ -50,9 +50,7 @@ class CreateProductDesktopScreen extends StatelessWidget {
                         children: [
                           // Basic Information
                           const ProductTitleAndDescription(),
-                          const SizedBox(
-                            height: TSizes.spaceBtwSections,
-                          ),
+                          const SizedBox(height: TSizes.spaceBtwSections),
 
                           // Stock and Pricing
                           TRoundedContainer(
@@ -60,44 +58,30 @@ class CreateProductDesktopScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 // Heading
-                                Text(
-                                  'Stock and Pricing',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                ),
-                                const SizedBox(
-                                  height: TSizes.spaceBtwItems,
-                                ),
+                                Text('Stock and Pricing', style: Theme.of(context).textTheme.headlineSmall),
+                                const SizedBox(height: TSizes.spaceBtwItems),
 
                                 // Product Type
                                 ProductTypeWidget(),
-                                const SizedBox(
-                                  height: TSizes.spaceBtwInputFields,
-                                ),
+                                const SizedBox(height: TSizes.spaceBtwInputFields,),
 
                                 // Stock
                                 ProductStockAndPricing(),
-                                const SizedBox(
-                                  height: TSizes.spaceBtwSections,
-                                ),
+                                const SizedBox(height: TSizes.spaceBtwSections,),
 
                                 // Attributes
                                 ProductAttributes(),
-                                const SizedBox(
-                                  height: TSizes.spaceBtwSections,
-                                ),
+                                const SizedBox(height: TSizes.spaceBtwSections,),
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: TSizes.spaceBtwSections,
-                          ),
+                          SizedBox(height: TSizes.spaceBtwSections,),
 
                           // Variation
                           ProductVariations(),
                         ],
                       )),
-                  SizedBox(height: TSizes.spaceBtwSections,),
+                  SizedBox(width: TSizes.spaceBtwSections,),
 
                   // Slider
                   Expanded(
@@ -122,9 +106,9 @@ class CreateProductDesktopScreen extends StatelessWidget {
                               height: TSizes.spaceBtwItems,
                             ),
                             ProductAdditionalImages(
-                              additionalProductImagesURLs: RxList<String>.empty(),
-                              onTapToAddImages: () {},
-                              onTapToRemoveImage: (index) {},
+                              additionalProductImagesURLs: controller.additionalProductImagesUrls,
+                              onTapToAddImages: () => controller.selectMultipleProductImages(),
+                              onTapToRemoveImage: (index)  => controller.removeImage(index),
                             )
                           ],
                         ),

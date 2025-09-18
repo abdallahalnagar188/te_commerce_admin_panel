@@ -11,6 +11,9 @@ class ProductController extends TBaseController<ProductModel> {
 
   final _productRepository = Get.put(ProductRepo());
 
+
+  final productType = ProductType.single.obs;
+
   @override
   Future<List<ProductModel>> fetchItems() async {
     return await _productRepository.getAllProducts();

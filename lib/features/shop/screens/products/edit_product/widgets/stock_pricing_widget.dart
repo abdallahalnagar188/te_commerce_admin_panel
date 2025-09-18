@@ -6,13 +6,14 @@ import '../../../../../../utils/constants/enums.dart';
 import '../../../../../../utils/constants/sizes.dart';
 import '../../../../../../utils/validators/validation.dart';
 import '../../../../controllers/product/create_product_controller.dart';
+import '../../../../controllers/product/edit_product_controller.dart';
 
 class ProductStockAndPricing extends StatelessWidget {
   const ProductStockAndPricing({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = CreateProductController.instance;
+    final controller = EditProductController.instance;
     return Obx(
           () =>
       controller.productType.value == ProductType.single ?
