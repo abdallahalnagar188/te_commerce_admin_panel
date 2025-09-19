@@ -34,11 +34,11 @@ class CustomerInfo extends StatelessWidget {
             Row(
               children: [
                 /// Customer Avatar
-                const TRoundedImage(
+                 TRoundedImage(
                   padding: 0,
                   backgroundColor: TColors.primaryBackground,
-                  image: TImages.user,
-                  imageType: ImageType.asset,
+                  image: customer.profilePicture.isNotEmpty? customer.profilePicture: TImages.userProfileImage1,
+                  imageType:customer.profilePicture.isNotEmpty? ImageType.network : ImageType.asset,
                 ),
 
                 const SizedBox(width: TSizes.spaceBtwItems),
@@ -77,7 +77,7 @@ class CustomerInfo extends StatelessWidget {
                 const SizedBox(width: TSizes.spaceBtwItems / 2),
                 Expanded(
                   child: Text(
-                    'abdallah',
+                    customer.userName,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
@@ -109,7 +109,7 @@ class CustomerInfo extends StatelessWidget {
                 const SizedBox(width: TSizes.spaceBtwItems / 2),
                 Expanded(
                   child: Text(
-                    '+44-7456-285429',
+                    customer.phoneNumber,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),

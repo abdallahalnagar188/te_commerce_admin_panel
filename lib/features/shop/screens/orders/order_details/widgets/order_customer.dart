@@ -98,8 +98,7 @@ class OrderCustomer extends StatelessWidget {
         const SizedBox(height: TSizes.spaceBtwSections),
         // Adjust as per your needs
         // Contact Info
-        Obx(
-    () =>  SizedBox(
+   SizedBox(
             width: double.infinity,
             child: TRoundedContainer(
               padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -118,12 +117,9 @@ class OrderCustomer extends StatelessWidget {
               ), // Column
             ), // TRoundedContainer
           ),
-        ), // SizedBox
         const SizedBox(height: TSizes.spaceBtwSections),
 
-// Contact Info: Adjust this address as per your needs
-        Obx(
-    ()=> SizedBox(
+        SizedBox(
             width: double.infinity,
             child: TRoundedContainer(
               padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -139,10 +135,11 @@ class OrderCustomer extends StatelessWidget {
                   Text(order.billingAddress != null ? order.billingAddress!.toString() : '',
                       style: Theme.of(context).textTheme.titleSmall),
                 ],
-              ), // Column
-            ), // TRoundedContainer
+              ),
+            ),
           ),
-        ), // SizedBox
+
+
         const SizedBox(height: TSizes.spaceBtwSections),
       ],
     );

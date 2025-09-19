@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:te_commerce_admin_panel/common/widgets/icons/table_action_icon_buttons.dart';
 import 'package:te_commerce_admin_panel/features/auth/models/user_model.dart';
+import 'package:te_commerce_admin_panel/features/shop/controllers/customer/customer_controller.dart';
 import 'package:te_commerce_admin_panel/routes/routes.dart';
 import 'package:te_commerce_admin_panel/utils/constants/image_strings.dart';
 import 'package:te_commerce_admin_panel/utils/device/device_utility.dart';
@@ -15,11 +16,16 @@ import '../../../../../../utils/constants/enums.dart';
 import '../../../../../../utils/constants/sizes.dart';
 
 class CustomerRows extends DataTableSource {
+  final controller = CustomerController.instance;
   @override
   DataRow getRow(int index) {
-    // final category = categories[index]; // assuming you have a categories list
-
+final customer = controller.filteredItems[index];
     return DataRow2(
+      onTap: () => Get.toNamed(TRoutes.customerDetails,arguments: customer,parameters: {'customerId' : customer.id ??''}),
+      selected: controller.selectedRows[index],
+      onSelectChanged: (value) {
+        controller.selectedRows[index] = value ?? false;
+      },
       cells: [
         DataCell(
           Row(
@@ -28,7 +34,7 @@ class CustomerRows extends DataTableSource {
                 width: 50,
                 height: 50,
                 padding: TSizes.sm,
-                image: TImages.adidasLogo,
+                image: customer.profilePicture,
                 imageType: ImageType.network,
                 borderRadius: TSizes.borderRadiusMd,
                 backgroundColor: TColors.primaryBackground,
@@ -38,7 +44,7 @@ class CustomerRows extends DataTableSource {
 
               Expanded(
                 child: Text(
-                  'Abdallah Alnagar',
+                  customer.fullName,
                   style: Theme.of(Get.context!)
                       .textTheme
                       .bodyLarge!
@@ -51,14 +57,14 @@ class CustomerRows extends DataTableSource {
           ),
         ),
         // you can add more DataCells here
-        DataCell(Text('abdallahAlnagar08@gmail.com')),
-        DataCell(Text('01022437846')),
-        DataCell(Text(DateTime.now().toString())),
+        DataCell(Text(customer.email)),
+        DataCell(Text(customer.formattedPhoneNo)),
+        DataCell(Text(customer.createdAt == null ? '' : customer.createdAt.toString())),
         DataCell(TTableActionButtons(
           view: true,
           edit: false,
-          onViewPressed: () => Get.toNamed(TRoutes.customerDetails,arguments: UserModel.empty()),
-          onDeletePressed: (){},
+          onViewPressed: () => Get.toNamed(TRoutes.customerDetails,arguments:customer,parameters: {'customerId' : customer.id ??''}),
+          onDeletePressed: ()=> controller.confirmAndDeleteItem(customer),
         )),
       ],
     );
@@ -68,8 +74,8 @@ class CustomerRows extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => 10;
+  int get rowCount => controller.filteredItems.length;
 
   @override
-  int get selectedRowCount => 0;
+  int get selectedRowCount => controller.selectedRows.where((selected) => selected).length;
 }

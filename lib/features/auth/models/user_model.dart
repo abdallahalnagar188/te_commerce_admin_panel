@@ -1,4 +1,7 @@
 // Model class representing user data.
+import 'package:te_commerce_admin_panel/features/shop/models/address_model.dart';
+import 'package:te_commerce_admin_panel/features/shop/models/order_model.dart';
+
 import '../../../utils/constants/enums.dart';
 import '../../../utils/formatters/formatter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,8 +17,9 @@ class UserModel {
   AppRole role;
   DateTime? createdAt;
   DateTime? updatedAt;
+  List<OrderModel>? orders;
+  List<AddressModel>? addresses ;
 
-  // Constructor for UserModel.
   UserModel({
     this.id,
     required this.email,

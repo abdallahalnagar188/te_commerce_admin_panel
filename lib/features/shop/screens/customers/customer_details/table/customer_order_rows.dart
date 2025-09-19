@@ -13,21 +13,18 @@ import '../../../../../../utils/constants/colors.dart';
 import '../../../../../../utils/constants/enums.dart';
 import '../../../../../../utils/constants/image_strings.dart';
 import '../../../../../../utils/constants/sizes.dart';
+import '../../../../controllers/customer/customer_details_controller.dart';
 import '../../../../models/order_model.dart';
 
 class CustomerOrderRows extends DataTableSource {
+  final controller = Get.put(CustomerDetailController());
   @override
   DataRow getRow(int index) {
-    final order = OrderModel(
-        id: 'id',
-        status: OrderStatus.shipped,
-        totalAmount: 233.4,
-        orderDate: DateTime.now(),
-        items: []);
-    const totalAmount = '2563,5';
+    final order = controller.filteredCustomerOrders[index];
+    final totalAmount = order.items.fold<double>(0.0, (sum, item) => sum + item.price);
 
     return DataRow2(
-      selected: false,
+      selected: controller.selectedRows[index],
       onTap: () => Get.toNamed(TRoutes.orderDetails, arguments: order),
       cells: [
         DataCell(Text(
@@ -40,7 +37,7 @@ class CustomerOrderRows extends DataTableSource {
         DataCell(Text(
           order.formattedDeliveryDate,
         )),
-        DataCell(Text('${5} Items')),
+        DataCell(Text('${order.items.length} Items')),
         DataCell(
           TRoundedContainer(
               radius: TSizes.cardRadiusSm,
@@ -64,8 +61,8 @@ class CustomerOrderRows extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => 5;
+  int get rowCount => controller.filteredCustomerOrders.length;
 
   @override
-  int get selectedRowCount => 0;
+  int get selectedRowCount => controller.selectedRows.where((row) => row).length;
 }
