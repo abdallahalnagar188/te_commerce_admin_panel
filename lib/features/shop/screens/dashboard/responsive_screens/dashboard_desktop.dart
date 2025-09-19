@@ -5,6 +5,7 @@ import 'package:te_commerce_admin_panel/common/widgets/containers/rounded_contai
 import 'package:te_commerce_admin_panel/features/shop/controllers/product/product_images_controller.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/dashboard/table/data_table.dart';
 import 'package:te_commerce_admin_panel/utils/constants/sizes.dart';
+import '../../../controllers/dashboard/dashboard_controller.dart';
 import '../widgets/dashboard_card.dart';
 import '../widgets/order_status_graph.dart';
 import '../widgets/weekly_sales.dart';
@@ -14,7 +15,8 @@ class DashboardDesktopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ProductImageController());
+    final controller = Get.put(DashboardController());
+
     return Scaffold(
         body: SingleChildScrollView(
       child: Padding(
@@ -35,37 +37,48 @@ class DashboardDesktopScreen extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                    child: TDashboardCard(
-                  title: 'Sales Total',
-                  subTitle: '\$356.6',
-                  stats: 25,
+                    child: Obx(
+                  () => TDashboardCard(
+                    title: 'Sales Total',
+                    subTitle:
+                        '\$${controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount).toStringAsFixed(2)}',
+                    stats: 25,
+                  ),
                 )),
                 const SizedBox(
                   width: TSizes.spaceBtwItems,
                 ),
                 Expanded(
-                    child: TDashboardCard(
-                  title: 'Average Order Value',
-                  subTitle: '\$25.6',
-                  stats: 15,
+                    child: Obx(
+                  () => TDashboardCard(
+                    title: 'Average Order Value',
+                    subTitle:
+                        '\$${(controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount) / controller.orderController.allItems.length).toStringAsFixed(2)}',
+                    stats: 15,
+                  ),
                 )),
                 const SizedBox(
                   width: TSizes.spaceBtwItems,
                 ),
                 Expanded(
-                    child: TDashboardCard(
-                  title: 'Total Orders',
-                  subTitle: '\$35',
-                  stats: 44,
+                    child: Obx(
+                  () => TDashboardCard(
+                    title: 'Total Orders',
+                    subTitle: '\$${controller.orderController.allItems.length}',
+                    stats: 44,
+                  ),
                 )),
                 const SizedBox(
                   width: TSizes.spaceBtwItems,
                 ),
                 Expanded(
-                    child: TDashboardCard(
-                  title: 'Visitors',
-                  subTitle: '254,034',
-                  stats: 2,
+                    child: Obx(
+                  () => TDashboardCard(
+                    title: 'Visitors',
+                    subTitle:
+                        '${controller.customerController.allItems.length}',
+                    stats: 2,
+                  ),
                 )),
                 const SizedBox(
                   width: TSizes.spaceBtwItems,

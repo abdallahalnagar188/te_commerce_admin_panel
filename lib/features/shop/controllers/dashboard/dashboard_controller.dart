@@ -1,59 +1,23 @@
 import 'package:get/get.dart';
+import 'package:te_commerce_admin_panel/data/abstract/base_data_table_controller.dart';
 import 'package:te_commerce_admin_panel/utils/helpers/helper_functions.dart';
 
 import '../../../../utils/constants/enums.dart';
 import '../../models/order_model.dart';
+import '../customer/customer_controller.dart';
+import '../order/order_controller.dart';
 
-class DashboardController extends GetxController {
+class DashboardController extends TBaseController<OrderModel> {
   static DashboardController get instance => Get.find();
+
+  final orderController = Get.put(OrderController());
+  final customerController = Get.put(CustomerController());
 
   final RxList<double> weeklySales = <double>[].obs;
   final RxMap<OrderStatus, int> orderStatusData = <OrderStatus, int>{}.obs;
   final RxMap<OrderStatus, double> totalAmounts = <OrderStatus, double>{}.obs;
 
-  ///  Orders
-  static final List<OrderModel> orders = [
-    OrderModel(
-      id: 'CWT0012',
-      status: OrderStatus.processing,
-      totalAmount: 265,
-      orderDate: DateTime(2024, 5, 20),
-      deliveryDate: DateTime(2024, 5, 20),
-      items: [],
-    ),
-    OrderModel(
-      id: 'CWT0025',
-      status: OrderStatus.shipped,
-      totalAmount: 369,
-      orderDate: DateTime(2024, 5, 21),
-      deliveryDate: DateTime(2024, 5, 21),
-      items: [],
-    ),
-    OrderModel(
-      id: 'CWT0152',
-      status: OrderStatus.delivered,
-      totalAmount: 254,
-      orderDate: DateTime(2024, 5, 22),
-      deliveryDate: DateTime(2024, 5, 22),
-      items: [],
-    ),
-    OrderModel(
-      id: 'CWT0265',
-      status: OrderStatus.delivered,
-      totalAmount: 355,
-      orderDate: DateTime(2024, 5, 23),
-      deliveryDate: DateTime(2024, 5, 23),
-      items: [],
-    ),
-    OrderModel(
-      id: 'CWT1536',
-      status: OrderStatus.delivered,
-      totalAmount: 115,
-      orderDate: DateTime(2024, 5, 24),
-      deliveryDate: DateTime(2024, 5, 24),
-      items: [],
-    ),
-  ];
+
 
   @override
   void onInit() {
@@ -66,7 +30,7 @@ class DashboardController extends GetxController {
   void _calculateWeeklySales() {
     // reset weekly sale to 0
     weeklySales.value = List<double>.filled(7, 0.0);
-    for (var order in orders) {
+    for (var order in orderController.allItems) {
       final DateTime orderWeekStart =
           THelperFunctions.getStartOfWeek(order.orderDate);
 
@@ -88,7 +52,7 @@ class DashboardController extends GetxController {
 
     totalAmounts.value = {for (var status in OrderStatus.values) status: 0.0};
 
-    for (var order in orders) {
+    for (var order in orderController.allItems) {
       final status = order.status;
       orderStatusData[status] = (orderStatusData[status] ?? 0) + 1;
       totalAmounts[status] = (totalAmounts[status] ?? 0) + order.totalAmount;
@@ -108,5 +72,27 @@ class DashboardController extends GetxController {
       case OrderStatus.cancelled:
         return 'Cancelled';
     }
+  }
+
+  @override
+  bool containsSearchQuery(OrderModel item, String query) => false;
+
+  @override
+  Future<void> deleteItem(OrderModel item) async {}
+
+  @override
+  Future<List<OrderModel>> fetchItems() async{
+    if (orderController.allItems.isNotEmpty) {
+      await orderController.fetchItems();
+    }
+
+    if(customerController.allItems.isNotEmpty){
+      await customerController.fetchItems();
+    }
+    _calculateWeeklySales();
+    _calculateOrderStatusData();
+    return orderController.allItems;
+
+
   }
 }

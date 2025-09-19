@@ -85,8 +85,7 @@ class TLoginForm extends StatelessWidget {
               /// Sign in button
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () =>  controller.registerAdmin(), child: Text('Register Admin')),
+                child: ElevatedButton(onPressed: () =>  controller.emailAndPasswordSignIn(), child: Text('Sign in')),
               )
             ],
           ),
