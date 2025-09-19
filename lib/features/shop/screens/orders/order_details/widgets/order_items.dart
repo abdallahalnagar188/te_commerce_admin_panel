@@ -17,22 +17,14 @@ class OrderItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subTotal = order.items.fold(
-        0.0,
-        (previousValue, element) =>
-            previousValue + (element.price * element.quantity));
+    final subTotal = order.items.fold(0.0, (previousValue, element) => previousValue + (element.price * element.quantity));
     return TRoundedContainer(
       padding: EdgeInsets.all(TSizes.defaultSpace),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Items',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const SizedBox(
-            height: TSizes.spaceBtwSections,
-          ),
+          Text('Items',style: Theme.of(context).textTheme.headlineMedium,),
+          const SizedBox(height: TSizes.spaceBtwSections,),
 
           // Items
           ListView.separated(
@@ -140,7 +132,7 @@ class OrderItems extends StatelessWidget {
                   children: [
                     Text('Shipping', style: Theme.of(context).textTheme.titleLarge),
                     Text(
-                      '\$${TPricingCalculator.calculateShippingCost(subTotal, '')}',
+                      '\$${order.shippingCost}',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],
@@ -153,7 +145,7 @@ class OrderItems extends StatelessWidget {
                   children: [
                     Text('Tax', style: Theme.of(context).textTheme.titleLarge),
                     Text(
-                      '\$${TPricingCalculator.calculateShippingCost(subTotal, '')}',
+                      '\$${order.taxCost.toStringAsFixed(2)}',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],
@@ -167,7 +159,7 @@ class OrderItems extends StatelessWidget {
                   children: [
                     Text('Total', style: Theme.of(context).textTheme.titleLarge),
                     Text(
-                      '\$${TPricingCalculator.calculateShippingCost(subTotal, '')}',
+                      '\$${order.totalAmount.toStringAsFixed(2)}',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],

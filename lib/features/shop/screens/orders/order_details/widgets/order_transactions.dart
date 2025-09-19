@@ -30,10 +30,7 @@ class OrderTransactions extends StatelessWidget {
                 flex: TDeviceUtils.isMobileScreen(context) ? 2 : 1,
                 child: Row(
                   children: [
-                    const TRoundedImage(
-                      imageType: ImageType.asset,
-                      image: TImages.paypal,
-                    ),
+                    const TRoundedImage(imageType: ImageType.asset, image: TImages.paypal,),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +57,7 @@ class OrderTransactions extends StatelessWidget {
                   children: [
                     Text('Date', style: Theme.of(context).textTheme.labelMedium),
                     Text(
-                      'April 21, 2025',
+                      order.formattedOrderDate,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],

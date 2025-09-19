@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:te_commerce_admin_panel/common/widgets/shimmers/shimmer.dart';
+import 'package:te_commerce_admin_panel/features/shop/controllers/order/order_controller.dart';
 import 'package:te_commerce_admin_panel/utils/constants/enums.dart';
 
 import '../../../../../../common/widgets/containers/rounded_container.dart';
@@ -15,6 +17,8 @@ class OrderInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(OrderController());
+    controller.orderStatus.value = order.status;
     return TRoundedContainer(
       padding: const EdgeInsets.all(TSizes.defaultSpace),
       child: Column(
@@ -43,7 +47,7 @@ class OrderInfo extends StatelessWidget {
                   children: [
                     const Text('Items'),
                     Text(
-                      '${10} Items',
+                      '${order.items.length} Items',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],
@@ -55,28 +59,31 @@ class OrderInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Status'),
-                    TRoundedContainer(
-                      radius: TSizes.cardRadiusSm,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: TSizes.sm),
-                      backgroundColor:
-                          THelperFunctions.getOrderStatusColor(order.status)
-                              .withOpacity(0.1),
-                      child: DropdownButton<OrderStatus>(
-                        padding: EdgeInsets.symmetric(vertical: 0),
-                        onChanged: (OrderStatus? newValue) {},
-                        value: order.status,
-                        items: OrderStatus.values.map((OrderStatus status) {
-                          return DropdownMenuItem(
-                              value: status,
-                              child: Text(
-                                status.name.capitalize.toString(),
-                                style: TextStyle(
-                                    color: THelperFunctions.getOrderStatusColor(
-                                        status)),
-                              ));
-                        }).toList(),
-                      ),
+                    Obx(
+                      (){
+                        if(controller.statusLoader.value )return const TShimmerEffect(width: double.infinity, height: 55);
+                        return TRoundedContainer(
+                        radius: TSizes.cardRadiusSm,
+                        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: TSizes.sm),
+                        backgroundColor: THelperFunctions.getOrderStatusColor(order.status).withOpacity(0.1),
+                        child: DropdownButton<OrderStatus>(
+                          padding: EdgeInsets.symmetric(vertical: 0),
+                          onChanged: (OrderStatus? newValue) {
+                            if(newValue != null) {
+                              controller.updateOrderStatus(order, newValue);
+                            }
+                          },
+                          value: order.status,
+                          items: OrderStatus.values.map((OrderStatus status) {
+                            return DropdownMenuItem(
+                                value: status,
+                                child: Text(
+                                  status.name.capitalize.toString(),
+                                  style: TextStyle(color: THelperFunctions.getOrderStatusColor(status)),
+                                ));
+                          }).toList(),
+                        ),
+                      );}
                     ),
                   ],
                 ),

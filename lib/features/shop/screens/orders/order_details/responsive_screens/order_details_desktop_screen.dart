@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:te_commerce_admin_panel/features/auth/models/user_model.dart';
-import 'package:te_commerce_admin_panel/features/shop/screens/customers/customer_details/widgets/shipping_address.dart';
 import '../../../../../../common/widgets/breadcrumbs/breadcrumbs_with_heading.dart';
 import '../../../../../../routes/routes.dart';
 import '../../../../../../utils/constants/sizes.dart';

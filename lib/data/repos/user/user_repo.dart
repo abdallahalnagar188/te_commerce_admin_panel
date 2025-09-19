@@ -18,37 +18,58 @@ class UserRepo extends GetxController {
   final FirebaseFirestore _dp = FirebaseFirestore.instance;
 
   /// Function to save user to Firebase
-  Future<void> createUser (UserModel user) async{
-    try{
+  Future<void> createUser(UserModel user) async {
+    try {
       await _dp.collection('Users').doc(user.id).set(user.toJson());
-    } on FirebaseAuthException catch(e){
+    } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
-    }on FormatException catch(_){
+    } on FormatException catch (_) {
       throw const TFormatException();
-    }on PlatformException catch (e){
+    } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
-    }catch(e){
+    } catch (e) {
       throw 'Something went wrong , Please try again';
     }
   }
 
   Future<UserModel> fetchAdminDetails() async {
-    try{
-      final docSnapshot = await _dp.collection('Users').doc(AuthRepo.instance.authUser!.uid).get();
-      if(docSnapshot.exists){
+    try {
+      final docSnapshot = await _dp
+          .collection('Users')
+          .doc(AuthRepo.instance.authUser!.uid)
+          .get();
+      if (docSnapshot.exists) {
         return UserModel.fromSnapshot(docSnapshot);
-      }else{
+      } else {
         return UserModel.empty();
       }
-    } on FirebaseAuthException catch(e){
+    } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
-    }on FormatException catch(_){
+    } on FormatException catch (_) {
       throw const TFormatException();
-    }on PlatformException catch (e){
+    } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
-    }catch(e){
+    } catch (e) {
       throw 'Something went wrong , Please try again';
     }
   }
 
+  Future fetchUserDetails(String userId) async {
+    try {
+      final docSnapshot = await _dp.collection('Users').doc(userId).get();
+      if (docSnapshot.exists) {
+        return UserModel.fromSnapshot(docSnapshot);
+      } else {
+        return UserModel.empty();
+      }
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong , Please try again';
+    }
+  }
 }
