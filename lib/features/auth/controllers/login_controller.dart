@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:te_commerce_admin_panel/data/repos/auth/auth_repo.dart';
+import 'package:te_commerce_admin_panel/data/repos/shop/setting/settings_repo.dart';
 import 'package:te_commerce_admin_panel/data/repos/user/user_repo.dart';
 import 'package:te_commerce_admin_panel/features/auth/controllers/user_controller.dart';
 import 'package:te_commerce_admin_panel/features/auth/models/user_model.dart';
@@ -12,6 +13,7 @@ import '../../../utils/constants/image_strings.dart';
 import '../../../utils/helpers/network_manager.dart';
 import '../../../utils/popups/full_screen_loader.dart';
 import '../../../utils/popups/loaders.dart';
+import '../../personalization/models/settings_model.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();
@@ -89,7 +91,7 @@ class LoginController extends GetxController {
    try {
      // Start Loading
      TFullScreenLoader.openLoadingDialog(
-       'Reistering Admin Account...',
+       'Registering Admin Account...',
        TImages.docerAnimation,
      );
 
@@ -114,6 +116,17 @@ class LoginController extends GetxController {
          role: AppRole.admin,
          createdAt: DateTime.now()));
 
+     final settingsRepo = Get.put(SettingsRepository());
+     await settingsRepo.registerSettings(
+       SettingModel(
+         appName: '',
+         appLogo: '',
+         freeShippingThreshold: 0.0,
+         shippingCost: 0.0,
+         taxRate: 0.0,
+       ),
+     );
+
      TFullScreenLoader.stopLoading();
 
      AuthRepo.instance.screenRedirect();
@@ -122,4 +135,15 @@ class LoginController extends GetxController {
      TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
     }
   }
+
+  /// logout
+Future<void> logout() async {
+
+    try {
+    await AuthRepo.instance.logout();
+    AuthRepo.instance.screenRedirect();
+  } catch (e) {
+    TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
+  }
+}
 }

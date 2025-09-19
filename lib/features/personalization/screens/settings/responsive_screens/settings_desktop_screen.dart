@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:te_commerce_admin_panel/features/personalization/screens/profile/widget/profile_form.dart';
 import 'package:te_commerce_admin_panel/features/personalization/screens/settings/widget/image_meta_settings.dart';
 import '../../../../../common/widgets/breadcrumbs/breadcrumbs_with_heading.dart';
 import '../../../../../utils/constants/sizes.dart';
+import '../../../controllers/settings_controller.dart';
 import '../widget/settings_form.dart';
 
 class SettingsDesktopScreen extends StatelessWidget {
@@ -11,6 +14,7 @@ class SettingsDesktopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller =Get.put(SettingsController());
     return Scaffold(
       body: SafeArea(
         child: Padding(

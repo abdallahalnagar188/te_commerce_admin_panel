@@ -79,6 +79,7 @@ class AuthRepo extends GetxController {
   }
 // Register User By Admin
 
+
 // Email Verification
 
 // Forget Password

@@ -137,4 +137,22 @@ class UserRepo extends GetxController {
       throw 'Something went wrong , Please try again';
     }
   }
+
+  /// fun to update any field in specific settings collection
+  Future<void> updateSingleField(Map<String, dynamic> data) async {
+    try {
+      await _dp
+          .collection("Users")
+          .doc(AuthRepo.instance.authUser!.uid)
+          .update(data);
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
 }

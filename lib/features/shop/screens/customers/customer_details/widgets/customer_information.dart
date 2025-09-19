@@ -37,7 +37,7 @@ class CustomerInfo extends StatelessWidget {
                  TRoundedImage(
                   padding: 0,
                   backgroundColor: TColors.primaryBackground,
-                  image: customer.profilePicture.isNotEmpty? customer.profilePicture: TImages.userProfileImage1,
+                  image: customer.profilePicture.isNotEmpty? customer.profilePicture: TImages.user,
                   imageType:customer.profilePicture.isNotEmpty? ImageType.network : ImageType.asset,
                 ),
 
@@ -122,56 +122,56 @@ class CustomerInfo extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwItems),
 
             /// Additional Details (placeholder for more info)
-            Row(
-              children: [
-                Expanded(
-                    child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Last Order',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const Text('7 Days Ago , #[78dhi]')
-                  ],
-                )),
-                Expanded(child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Average Order value',style: Theme.of(context).textTheme.titleLarge,),
-                    const Text('\$788')
-                  ],
-                ))
-              ],
-            ),
-            const SizedBox(height: TSizes.spaceBtwItems,),
-
-            Row(
-              children: [
-                Expanded(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Registered',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                         Text(customer.formattedDate)
-                      ],
-                    )),
-                Expanded(child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Email Marketing',style: Theme.of(context).textTheme.titleLarge,),
-                    const Text('Subscribed')
-                  ],
-                ))
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     Expanded(
+            //         child: Column(
+            //       mainAxisSize: MainAxisSize.min,
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           'Last Order',
+            //           style: Theme.of(context).textTheme.titleLarge,
+            //         ),
+            //         const Text('7 Days Ago , #[78dhi]')
+            //       ],
+            //     )),
+            //     Expanded(child: Column(
+            //       mainAxisSize: MainAxisSize.min,
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text('Average Order value',style: Theme.of(context).textTheme.titleLarge,),
+            //         const Text('\$788')
+            //       ],
+            //     ))
+            //   ],
+            // ),
+            // const SizedBox(height: TSizes.spaceBtwItems,),
+            //
+            // Row(
+            //   children: [
+            //     Expanded(
+            //         child: Column(
+            //           mainAxisSize: MainAxisSize.min,
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Text(
+            //               'Registered',
+            //               style: Theme.of(context).textTheme.titleLarge,
+            //             ),
+            //              Text(customer.formattedDate)
+            //           ],
+            //         )),
+            //     Expanded(child: Column(
+            //       mainAxisSize: MainAxisSize.min,
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text('Email Marketing',style: Theme.of(context).textTheme.titleLarge,),
+            //         const Text('Subscribed')
+            //       ],
+            //     ))
+            //   ],
+            // ),
           ],
         ));
   }

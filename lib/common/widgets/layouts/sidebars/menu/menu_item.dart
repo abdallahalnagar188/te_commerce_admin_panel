@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:te_commerce_admin_panel/common/widgets/layouts/sidebars/sidebar_controller.dart';
 
+import '../../../../../features/auth/controllers/login_controller.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 
@@ -17,8 +18,9 @@ class TMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller  = Get.put(SidebarController());
+    final loginController = Get.put(LoginController());
     return InkWell(
-      onTap: () => controller.menuTap(route),
+      onTap: () => route == 'logout'? loginController.logout(): controller.menuTap(route),
       onHover: (hovering) => hovering? controller.changeHoverItem(route): controller.changeHoverItem(''),
       child: Obx(
           () => Padding(

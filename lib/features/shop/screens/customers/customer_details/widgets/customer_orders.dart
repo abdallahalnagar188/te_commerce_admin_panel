@@ -27,7 +27,7 @@ class CustomerOrders extends StatelessWidget {
         () {
           if(controller.ordersLoading.value) return const TLoaderAnimation();
           if(controller.allCustomerOrders.isEmpty){
-            return const TAnimationLoaderWidget(text: 'No Orders',animation: TImages.productsIllustration,);
+            return const Center(child: Text('No Orders Found'));
           }
 
           final totalAmount = controller.allCustomerOrders.fold(0.0, (sum, order) => sum + order.totalAmount);
@@ -47,7 +47,7 @@ class CustomerOrders extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyLarge!.apply(color: TColors.primary)
                       ),
                       TextSpan(
-                          text: ' on ${controller.allCustomerOrders.length} Orders',
+                          text: 'on ${controller.allCustomerOrders.length} Orders',
                           style: Theme.of(context).textTheme.bodyLarge
                       ),
                     ],
