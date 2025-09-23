@@ -75,4 +75,5 @@ class DefaultFirebaseOptions {
     iosClientId: '499026946457-dlkrt1eesdtqivkh6dncne86d7heegcn.apps.googleusercontent.com',
     iosBundleId: 'com.example.teCommerceAdminPanel',
   );
+
 }

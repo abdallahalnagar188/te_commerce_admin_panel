@@ -47,11 +47,9 @@ class ProductRepo extends GetxController {
     }
   }
 
-  // Create Product Category
-  Future<String> createProductCategory(ProductCategoryModel productCategory) async {
+  Future<void> createProductCategory(ProductCategoryModel productCategory) async {
     try {
-      final data = await _db.collection('ProductCategory').add(productCategory.toJson());
-      return data.id;
+      await _db.collection('ProductCategory').add(productCategory.toJson());
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
     } on PlatformException catch (e) {
@@ -60,6 +58,7 @@ class ProductRepo extends GetxController {
       throw 'Something went wrong : $e';
     }
   }
+
   // remove product category
   Future<void> removeProductCategory(String productId, String categoryId) async {
     try {

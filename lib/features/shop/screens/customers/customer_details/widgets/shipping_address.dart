@@ -11,20 +11,28 @@ class ShippingAddress extends StatelessWidget {
   const ShippingAddress({
     super.key,
   });
+
   @override
   Widget build(BuildContext context) {
     final controller = CustomerDetailController.instance;
     controller.getCustomerAddress();
-    return Obx(
-        (){
-          if(controller.addressesLoading.value) return const TLoaderAnimation();
 
-          AddressModel selectedAddress = AddressModel.empty();
-          if(controller.customer.value.addresses != null && controller.customer.value.addresses!.isNotEmpty){
-            selectedAddress = controller.customer.value.addresses!.where((element) => element.selectedAddress).single;
-          }
+    return Obx(() {
+      if (controller.addressesLoading.value) {
+        return const TLoaderAnimation();
+      }
 
-          return TRoundedContainer(
+      AddressModel selectedAddress = AddressModel.empty();
+
+      if (controller.customer.value.addresses != null &&
+          controller.customer.value.addresses!.isNotEmpty) {
+        selectedAddress = controller.customer.value.addresses!.firstWhere(
+              (element) => element.selectedAddress,
+          orElse: () => AddressModel.empty(),
+        );
+      }
+
+      return TRoundedContainer(
         padding: const EdgeInsets.all(TSizes.defaultSpace),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +84,7 @@ class ShippingAddress extends StatelessWidget {
                 const SizedBox(width: TSizes.spaceBtwItems / 2),
                 Expanded(
                   child: Text(
-                   selectedAddress.phoneNumber,
+                    selectedAddress.phoneNumber,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
@@ -92,7 +100,9 @@ class ShippingAddress extends StatelessWidget {
                 const SizedBox(width: TSizes.spaceBtwItems / 2),
                 Expanded(
                   child: Text(
-                   selectedAddress.id.isNotEmpty ? selectedAddress.toString(): '',
+                    selectedAddress.id.isNotEmpty
+                        ? selectedAddress.toString()
+                        : '',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
@@ -100,7 +110,7 @@ class ShippingAddress extends StatelessWidget {
             ),
           ],
         ),
-      );}
-    );
+      );
+    });
   }
 }

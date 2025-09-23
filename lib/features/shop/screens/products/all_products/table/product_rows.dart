@@ -60,7 +60,8 @@ class ProductRows extends DataTableSource {
           ),
         ),
         // you can add more DataCells here
-        DataCell(Text(controller.getProductPrice(product))),
+        // stock data cell
+        DataCell( Text(product.stock.toString())),
         DataCell(Text(product.soldQuantity.toString())),
 
         // Brand

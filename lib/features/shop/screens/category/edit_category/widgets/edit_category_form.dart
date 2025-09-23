@@ -120,7 +120,7 @@ class EditCategoryForm extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
                 onPressed: () => editController.updateCategory(category),
-                child: Text('Create')),
+                child: Text('Update')),
           ),
           const SizedBox(
             height: TSizes.spaceBtwInputFields * 2,

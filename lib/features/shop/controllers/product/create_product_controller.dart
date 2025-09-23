@@ -110,22 +110,24 @@ class CreateProductController extends GetxController {
 
       // Map Data
       final newRecord = ProductModel(
-          id: '',
-          sku: '',
-          isFeatured: true,
-          title: title.text.trim(),
-          description: description.text.trim(),
-          brand: selectedBrand.value!,
-          productVariations: variations,
-          productType: productType.value.toString(),
-          productAttributes:
-              ProductAttributesController.instance.productAttributes,
-          price: double.tryParse(price.text.trim()) ?? 0.0,
-          stock: int.tryParse(stock.text.trim()) ?? 0,
-          salePrice: double.tryParse(salePrice.text.trim()) ?? 0.0,
-          thumbnail: imagesController.selectedThumbnailImageUrl.value!,
-          images: imagesController.additionalProductImagesUrls,
-          date: DateTime.now());
+        id: '',
+        sku: '',
+        isFeatured: true,
+        title: title.text.trim(),
+        description: description.text.trim(),
+        brand: selectedBrand.value!,
+        productVariations: variations,
+        productType: productType.value.toString(),
+        productAttributes: ProductAttributesController.instance.productAttributes,
+        price: double.tryParse(price.text.trim()) ?? 0.0,
+        stock: int.tryParse(stock.text.trim()) ?? 0,
+        salePrice: double.tryParse(salePrice.text.trim()) ?? 0.0,
+        thumbnail: imagesController.selectedThumbnailImageUrl.value!,
+        images: imagesController.additionalProductImagesUrls,
+        date: DateTime.now(),
+        categoryId: selectedCategories.first?.id,  // ✅ assign category
+      );
+
 
       // call repo to create new product
       productDateUploader.value = true;
