@@ -34,24 +34,27 @@ class TTableActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if (view)
-          IconButton(
-            onPressed: onViewPressed,
-            icon: const Icon(Iconsax.eye, color: TColors.darkerGrey),
-          ),
-        if (edit)
-          IconButton(
-            onPressed: onEditPressed,
-            icon: const Icon(Iconsax.pen_add, color: TColors.primary),
-          ),
-        if (delete)
-          IconButton(
-            onPressed: onDeletePressed,
-            icon: const Icon(Iconsax.trash, color: TColors.error),
-          ),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          if (view)
+            IconButton(
+              onPressed: onViewPressed,
+              icon: const Icon(Iconsax.eye, color: TColors.darkerGrey),
+            ),
+          if (edit)
+            IconButton(
+              onPressed: onEditPressed,
+              icon: const Icon(Iconsax.pen_add, color: TColors.primary),
+            ),
+          if (delete)
+            IconButton(
+              onPressed: onDeletePressed,
+              icon: const Icon(Iconsax.trash, color: TColors.error),
+            ),
+        ],
+      ),
     );
   }
 }

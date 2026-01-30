@@ -27,14 +27,10 @@ class TTableHeader extends StatelessWidget {
         Expanded(
             flex: !TDeviceUtils.isDesktopScreen(context) ? 3 : 1,
             child: showLeftWidget
-                ? Row(
-                    children: [
-                      SizedBox(
-                        width: 200,
-                        child: ElevatedButton(
-                            onPressed: onPressed, child: Text(buttonText)),
-                      ),
-                    ],
+                ? SizedBox(
+                    width: TDeviceUtils.isMobileScreen(context) ? null : 200,
+                    child: ElevatedButton(
+                        onPressed: onPressed, child: Text(buttonText)),
                   )
                 : const SizedBox.shrink()),
         Expanded(

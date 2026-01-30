@@ -2,7 +2,7 @@
 import 'package:te_commerce_admin_panel/features/shop/models/address_model.dart';
 import 'package:te_commerce_admin_panel/features/shop/models/order_model.dart';
 
-import '../../../utils/constants/enums.dart';
+import '../../../utils/roles.dart';
 import '../../../utils/formatters/formatter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -18,7 +18,7 @@ class UserModel {
   DateTime? createdAt;
   DateTime? updatedAt;
   List<OrderModel>? orders;
-  List<AddressModel>? addresses ;
+  List<AddressModel>? addresses;
 
   UserModel({
     this.id,
@@ -58,7 +58,8 @@ class UserModel {
   }
 
   // Factory method to create a User Model from a Firebase Document Snapshot
-  factory UserModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
+  factory UserModel.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> document) {
     if (document.data() != null) {
       final data = document.data()!;
       return UserModel(
@@ -67,12 +68,15 @@ class UserModel {
         lastName: data.containsKey('LastName') ? data['LastName'] ?? '' : '',
         userName: data.containsKey('UserName') ? data['UserName'] ?? '' : '',
         email: data.containsKey('Email') ? data['Email'] ?? '' : '',
-        phoneNumber: data.containsKey('PhoneNumber') ? data['PhoneNumber'] ?? '' : '',
-        profilePicture: data.containsKey('ProfilePicture') ? data['ProfilePicture'] ?? '' : '',
+        phoneNumber:
+            data.containsKey('PhoneNumber') ? data['PhoneNumber'] ?? '' : '',
+        profilePicture: data.containsKey('ProfilePicture')
+            ? data['ProfilePicture'] ?? ''
+            : '',
         role: data.containsKey('Role')
             ? (data['Role'] ?? AppRole.user) == AppRole.admin.name.toString()
-            ? AppRole.admin
-            : AppRole.user
+                ? AppRole.admin
+                : AppRole.user
             : AppRole.user,
         createdAt: data.containsKey('CreatedAt')
             ? data['CreatedAt']?.toDate() ?? DateTime.now()
@@ -85,5 +89,4 @@ class UserModel {
       return empty();
     }
   }
-
 }

@@ -17,8 +17,6 @@ class DashboardController extends TBaseController<OrderModel> {
   final RxMap<OrderStatus, int> orderStatusData = <OrderStatus, int>{}.obs;
   final RxMap<OrderStatus, double> totalAmounts = <OrderStatus, double>{}.obs;
 
-
-
   @override
   void onInit() {
     _calculateWeeklySales();
@@ -81,18 +79,21 @@ class DashboardController extends TBaseController<OrderModel> {
   Future<void> deleteItem(OrderModel item) async {}
 
   @override
-  Future<List<OrderModel>> fetchItems() async{
-    if (orderController.allItems.isNotEmpty) {
+  Future<List<OrderModel>> fetchItems() async {
+    // Fetch orders if empty or force refresh
+    if (orderController.allItems.isEmpty) {
       await orderController.fetchItems();
     }
 
-    if(customerController.allItems.isNotEmpty){
+    // Fetch customers if empty
+    if (customerController.allItems.isEmpty) {
       await customerController.fetchItems();
     }
+
+    // Recalculate metrics
     _calculateWeeklySales();
     _calculateOrderStatusData();
+
     return orderController.allItems;
-
-
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:te_commerce_admin_panel/features/shop/screens/orders/order_details/responsive_screens/order_details_desktop_screen.dart';
+import 'package:te_commerce_admin_panel/features/shop/screens/orders/order_details/responsive_screens/order_details_mobile_Screen.dart';
 import '../../../../../common/widgets/layouts/templates/site_layout.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
@@ -11,7 +12,8 @@ class OrderDetailsScreen extends StatelessWidget {
     final order = Get.arguments;
     final orderId = Get.parameters['orderId'];
     return TSiteTemplate(
-      desktop: OrderDetailsDesktopScreen(order:order),
+      desktop: OrderDetailsDesktopScreen(order: order),
+      mobile: OrderDetailsMobileScreen(order: order),
     );
   }
 }

@@ -59,17 +59,24 @@ class OrderInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Status'),
-                    Obx(
-                      (){
-                        if(controller.statusLoader.value )return const TShimmerEffect(width: double.infinity, height: 55);
-                        return TRoundedContainer(
+                    Obx(() {
+                      if (controller.statusLoader.value)
+                        return const TShimmerEffect(
+                            width: double.infinity, height: 55);
+                      return TRoundedContainer(
                         radius: TSizes.cardRadiusSm,
-                        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: TSizes.sm),
-                        backgroundColor: THelperFunctions.getOrderStatusColor(order.status).withOpacity(0.1),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: TSizes.sm),
+                        backgroundColor:
+                            THelperFunctions.getOrderStatusColor(order.status)
+                                .withOpacity(0.1),
                         child: DropdownButton<OrderStatus>(
-                          padding: EdgeInsets.symmetric(vertical: 0),
+                          padding: const EdgeInsets.symmetric(vertical: 0),
+                          isExpanded: true, // Fix potential overflow
+                          underline:
+                              const SizedBox(), // Remove underline for cleaner look
                           onChanged: (OrderStatus? newValue) {
-                            if(newValue != null) {
+                            if (newValue != null) {
                               controller.updateOrderStatus(order, newValue);
                             }
                           },
@@ -79,20 +86,30 @@ class OrderInfo extends StatelessWidget {
                                 value: status,
                                 child: Text(
                                   status.name.capitalize.toString(),
-                                  style: TextStyle(color: THelperFunctions.getOrderStatusColor(status)),
+                                  style: TextStyle(
+                                      color:
+                                          THelperFunctions.getOrderStatusColor(
+                                              status),
+                                      fontSize: 12),
+                                  overflow: TextOverflow
+                                      .ellipsis, // Handle text overflow
                                 ));
                           }).toList(),
                         ),
-                      );}
-                    ),
+                      );
+                    }),
                   ],
                 ),
               ),
-              Expanded(child: Column(
+              Expanded(
+                  child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Total'),
-                  Text('\$${order.totalAmount}',style: Theme.of(context).textTheme.bodyLarge,)
+                  Text(
+                    '\$${order.totalAmount}',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  )
                 ],
               ))
             ],

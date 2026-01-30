@@ -10,8 +10,7 @@ import 'package:te_commerce_admin_panel/features/shop/controllers/product/edit_p
 import 'package:te_commerce_admin_panel/utils/constants/sizes.dart';
 
 import '../../../../../../common/widgets/containers/rounded_container.dart';
-import '../../../../controllers/product/create_product_controller.dart';
-import '../../../../models/brand_model.dart';
+import '../../../../../../common/widgets/safe_network_image.dart';
 
 class ProductBrand extends StatelessWidget {
   const ProductBrand({super.key});
@@ -61,13 +60,11 @@ class ProductBrand extends StatelessWidget {
               },
               itemBuilder: (context, suggestion) {
                 return ListTile(
-                  leading: Image.network(
-                    suggestion.image,
+                  leading: SafeNetworkImage(
+                    url: suggestion.image,
                     width: 30,
                     height: 30,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Icon(Icons.business);
-                    },
+                    placeholder: const Icon(Icons.business),
                   ),
                   title: Text(suggestion.name),
                 );
@@ -91,12 +88,11 @@ class ProductBrand extends StatelessWidget {
             }
             return Row(
               children: [
-                Image.network(
-                  selectedBrand.image,
+                SafeNetworkImage(
+                  url: selectedBrand.image,
                   width: 40,
                   height: 40,
-                  errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.business),
+                  placeholder: const Icon(Icons.business),
                 ),
                 const SizedBox(width: 8),
                 Text(

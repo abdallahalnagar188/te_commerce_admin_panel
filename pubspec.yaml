@@ -15,7 +15,7 @@ dependencies:
   lottie: ^3.3.1
   shimmer: ^3.0.0
   clipboard: ^2.0.2
-  image_picker: ^1.1.2
+  image_picker: ^1.2.1
   url_launcher: ^6.3.1
   flutter_dropzone: ^4.2.1
   flutter_typeahead: ^5.0.0
@@ -47,6 +47,9 @@ dependencies:
   firebase_auth: ^6.0.0
   cloud_firestore: ^6.0.0
   firebase_storage: ^13.0.0
+
+  # Supabase
+  supabase_flutter: ^2.0.0
 
 
 dev_dependencies:

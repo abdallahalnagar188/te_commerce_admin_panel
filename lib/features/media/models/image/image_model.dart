@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:te_commerce_admin_panel/utils/formatters/formatter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ImageModel {
   String id;
@@ -84,6 +85,57 @@ class ImageModel {
       fullPath: metaData.fullPath,
       createdAt: metaData.timeCreated,
       contentType: metaData.contentType,
+    );
+  }
+
+  /// Map Supabase Storage Data
+  factory ImageModel.fromSupabaseMetadata(
+      FileObject fileData, String folder, String fileName, String downloadUrl) {
+    // Parse dates if they are strings, otherwise use as DateTime
+    DateTime? parseDate(dynamic date) {
+      if (date == null) return null;
+      if (date is DateTime) return date;
+      if (date is String) {
+        try {
+          return DateTime.parse(date);
+        } catch (e) {
+          return null;
+        }
+      }
+      return null;
+    }
+    
+    return ImageModel(
+      url: downloadUrl,
+      folder: folder,
+      fileName: fileName,
+      sizeBytes: fileData.metadata?['size'] as int?,
+      updatedAt: parseDate(fileData.updatedAt),
+      fullPath: fileData.id,
+      createdAt: parseDate(fileData.createdAt),
+      contentType: fileData.metadata?['mimetype'] as String?,
+    );
+  }
+
+  /// Create ImageModel from Supabase upload (simplified version)
+  factory ImageModel.fromSupabaseUpload({
+    required String downloadUrl,
+    required String folder,
+    required String fileName,
+    required String fullPath,
+    int? sizeBytes,
+    String? contentType,
+  }) {
+    final now = DateTime.now();
+    return ImageModel(
+      url: downloadUrl,
+      folder: folder,
+      fileName: fileName,
+      sizeBytes: sizeBytes,
+      updatedAt: now,
+      fullPath: fullPath,
+      createdAt: now,
+      contentType: contentType ?? 'image/jpeg',
     );
   }
 

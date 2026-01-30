@@ -1,6 +1,8 @@
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
 import 'package:te_commerce_admin_panel/common/widgets/images/t_circular_image.dart';
 import 'package:te_commerce_admin_panel/common/widgets/loaders/circular_loader.dart';
@@ -108,32 +110,73 @@ class MediaController extends GetxController {
     }
   }
 
-  /// Pick images using Dropzone (web only)
+  /// Pick images (Web & Mobile)
   Future<void> selectLocalImage() async {
-    final files = await dropzoneViewController.pickFiles(
-      multiple: true,
-      mime: ['image/jpeg', 'image/png'],
-    );
+    if (kIsWeb) {
+      // Web Logic using Dropzone (if initialized) or fallback if needed (though Dropzone usually handles it)
+      // Note: DropzoneViewController.pickFiles might rely on the view being present.
+      // If the view checks kIsWeb, it's fine.
+      try {
+        final files = await dropzoneViewController.pickFiles(
+          multiple: true,
+          mime: ['image/jpeg', 'image/png'],
+        );
 
-    if (files.isNotEmpty) {
-      for (var file in files) {
-        try {
-          final bytes = await dropzoneViewController.getFileData(file);
-
-          final image = ImageModel(
-            url: '',
-            file: file,
-            // html.File directly
-            folder: '',
-            fileName: file.name,
-            localImageToDisplay: Uint8List.fromList(bytes),
-          );
-
-          selectedImagesToUpload.add(image);
-        } catch (e) {
-          debugPrint('Error processing file ${file.name}: $e');
+        if (files.isNotEmpty) {
+          for (var file in files) {
+            processWebFile(file);
+          }
         }
+      } catch (e) {
+        debugPrint('Web Picker Error: $e');
       }
+    } else {
+      // Mobile Logic using ImagePicker
+      try {
+        final ImagePicker picker = ImagePicker();
+        final List<XFile> images =
+            await picker.pickMultiImage(imageQuality: 70);
+
+        if (images.isNotEmpty) {
+          for (var file in images) {
+            await _processMobileFile(file);
+          }
+        }
+      } catch (e) {
+        debugPrint('Mobile Picker Error: $e');
+      }
+    }
+  }
+
+  Future<void> processWebFile(dynamic file) async {
+    try {
+      final bytes = await dropzoneViewController.getFileData(file);
+      final image = ImageModel(
+        url: '',
+        file: file,
+        folder: '',
+        fileName: file.name,
+        localImageToDisplay: Uint8List.fromList(bytes),
+      );
+      selectedImagesToUpload.add(image);
+    } catch (e) {
+      debugPrint('Error processing web file ${file.name}: $e');
+    }
+  }
+
+  Future<void> _processMobileFile(XFile file) async {
+    try {
+      final bytes = await file.readAsBytes();
+      final image = ImageModel(
+        url: '',
+        file: null, // No html.File on mobile
+        folder: '',
+        fileName: file.name,
+        localImageToDisplay: bytes,
+      );
+      selectedImagesToUpload.add(image);
+    } catch (e) {
+      debugPrint('Error processing mobile file ${file.name}: $e');
     }
   }
 
@@ -186,7 +229,7 @@ class MediaController extends GetxController {
       for (int i = selectedImagesToUpload.length - 1; i >= 0; i--) {
         var selectedImage = selectedImagesToUpload[i];
 
-        // Upload Image to Firebase Storage
+        // Upload Image to Supabase Storage
         final ImageModel uploadedImage =
             await mediaRepo.uploadImageFileInStorage(
           bytes: selectedImage.localImageToDisplay!, // ✅ use Uint8List

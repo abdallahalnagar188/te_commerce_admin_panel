@@ -32,11 +32,11 @@ class DashboardMobileScreen extends StatelessWidget {
                 const SizedBox(height: TSizes.spaceBtwItems,),
                 TDashboardCard(title: 'Visitors', subTitle: '254,034', stats: 2,),
 
+                const SizedBox(height: TSizes.spaceBtwSections,),
                 /// Bar graph
                 TWeeklySalesGraph(),
                 const SizedBox(height: TSizes.spaceBtwSections,),
 
-                /// Orders
                 /// Orders
                 TRoundedContainer(
                   child:Column(

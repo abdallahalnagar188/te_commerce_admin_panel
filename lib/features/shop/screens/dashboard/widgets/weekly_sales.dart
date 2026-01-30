@@ -11,13 +11,10 @@ import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/device/device_utility.dart';
 import '../../../controllers/dashboard/dashboard_controller.dart';
 
-
-
 class TWeeklySalesGraph extends StatelessWidget {
   const TWeeklySalesGraph({
     super.key,
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +26,12 @@ class TWeeklySalesGraph extends StatelessWidget {
         children: [
           Row(
             children: [
-              TCircularIcon(icon: Iconsax.graph,backgroundColor: Colors.brown.withOpacity(0.1),color: Colors.brown,size: TSizes.md,),
+              TCircularIcon(
+                icon: Iconsax.graph,
+                backgroundColor: Colors.brown.withOpacity(0.1),
+                color: Colors.brown,
+                size: TSizes.md,
+              ),
               const SizedBox(
                 width: TSizes.spaceBtwItems,
               ),
@@ -45,41 +47,46 @@ class TWeeklySalesGraph extends StatelessWidget {
 
           // Graph
           Obx(
-    ()=> controller.weeklySales.isNotEmpty? SizedBox(
-              height: 400,
-              child: BarChart(BarChartData(
-                 titlesData: buildFlTitlesData(controller.weeklySales),
-                  borderData: FlBorderData(
-                      show: true,
-                      border: const Border(
-                          top: BorderSide.none,
-                          right: BorderSide.none)),
-                  gridData: FlGridData(
-                      show: true,
-                      drawHorizontalLine: true,
-                      drawVerticalLine: true,
-                      horizontalInterval: 200),
-                  barGroups: controller.weeklySales
-                      .asMap()
-                      .entries
-                      .map((entry) => BarChartGroupData(
-                      x: entry.key,
-                      barRods: [
-                        BarChartRodData(
-                            toY: entry.value,
-                            width: 30,
-                            color: TColors.primary,
-                            borderRadius: BorderRadius.circular(TSizes.sm)
-                        )
-                      ]))
-                      .toList(),
-                  groupsSpace: TSizes.spaceBtwItems,
-                  barTouchData: BarTouchData(
-                    touchTooltipData: BarTouchTooltipData(getTooltipColor: (_)=> TColors.secondary),
-                    touchCallback: TDeviceUtils.isDesktopScreen(context) ? (barTouchEvent,barTouchResponse){} :null,
+            () => controller.weeklySales.isNotEmpty
+                ? SizedBox(
+                    height: 400,
+                    child: BarChart(BarChartData(
+                        titlesData: buildFlTitlesData(controller.weeklySales),
+                        borderData: FlBorderData(
+                            show: true,
+                            border: const Border(
+                                top: BorderSide.none, right: BorderSide.none)),
+                        gridData: FlGridData(
+                            show: true,
+                            drawHorizontalLine: true,
+                            drawVerticalLine: true,
+                            horizontalInterval: 200),
+                        barGroups: controller.weeklySales
+                            .asMap()
+                            .entries
+                            .map((entry) =>
+                                BarChartGroupData(x: entry.key, barRods: [
+                                  BarChartRodData(
+                                      toY: entry.value,
+                                      width: 30,
+                                      color: TColors.primary,
+                                      borderRadius:
+                                          BorderRadius.circular(TSizes.sm))
+                                ]))
+                            .toList(),
+                        groupsSpace: TSizes.spaceBtwItems,
+                        barTouchData: BarTouchData(
+                          touchTooltipData: BarTouchTooltipData(
+                              getTooltipColor: (_) => TColors.secondary),
+                          touchCallback: TDeviceUtils.isDesktopScreen(context)
+                              ? (barTouchEvent, barTouchResponse) {}
+                              : null,
+                        ))),
                   )
-              )),
-            ): const SizedBox(height: 400,child: Center(child: CircularProgressIndicator()),),
+                : const SizedBox(
+                    height: 400,
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
           )
         ],
       ),
@@ -87,8 +94,8 @@ class TWeeklySalesGraph extends StatelessWidget {
   }
 
   FlTitlesData buildFlTitlesData(List<double> weeklySales) {
-    double maxOrder = weeklySales.reduce((a,b) => a > b ? a : b).toDouble();
-    double stepHeight = (maxOrder /10).ceilToDouble();
+    double maxOrder = weeklySales.reduce((a, b) => a > b ? a : b).toDouble();
+    double stepHeight = (maxOrder / 10).ceilToDouble();
     return FlTitlesData(
       show: true,
       bottomTitles: AxisTitles(
@@ -104,15 +111,20 @@ class TWeeklySalesGraph extends StatelessWidget {
               space: 0, // spacing from chart
               child: Text(
                 day,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
             );
           },
         ),
       ),
-      leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true,interval: stepHeight<= 0? 500:stepHeight,reservedSize: 50)),
-      rightTitles:  AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      topTitles:  AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+              showTitles: true,
+              interval: stepHeight <= 0 ? 10 : stepHeight,
+              reservedSize: 50)),
+      rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:te_commerce_admin_panel/utils/constants/sizes.dart';
 
 import '../../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../../../utils/constants/colors.dart';
+import '../../../../../../common/widgets/safe_network_image.dart';
 
 class ProductAdditionalImages extends StatelessWidget {
   const ProductAdditionalImages(
@@ -107,8 +108,8 @@ class ProductAdditionalImages extends StatelessWidget {
                   height: 80,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: Image.network(
-                      imageUrl,
+                    child: SafeNetworkImage(
+                      url: imageUrl,
                       fit: BoxFit.cover,
                       width: 80,
                       height: 80,

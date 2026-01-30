@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:te_commerce_admin_panel/common/widgets/images/t_rounded_image.dart';
 import 'package:te_commerce_admin_panel/common/widgets/shimmers/shimmer.dart';
 import 'package:te_commerce_admin_panel/features/auth/controllers/user_controller.dart';
+import 'package:te_commerce_admin_panel/common/controllers/language_controller.dart';
 import 'package:te_commerce_admin_panel/utils/constants/colors.dart';
 import 'package:te_commerce_admin_panel/utils/constants/enums.dart';
 import 'package:te_commerce_admin_panel/utils/constants/sizes.dart';
@@ -30,8 +31,8 @@ class THeader extends StatelessWidget implements PreferredSizeWidget {
         automaticallyImplyLeading: !TDeviceUtils.isDesktopScreen(context),
         leading: !TDeviceUtils.isDesktopScreen(context)
             ? IconButton(
-            onPressed: () => scaffoldKey?.currentState?.openDrawer(),
-            icon: Icon(Iconsax.menu))
+                onPressed: () => scaffoldKey?.currentState?.openDrawer(),
+                icon: Icon(Iconsax.menu))
             : null,
 
         /// Search Field
@@ -52,7 +53,13 @@ class THeader extends StatelessWidget implements PreferredSizeWidget {
             IconButton(onPressed: () {}, icon: Icon(Iconsax.search_normal)),
 
           /// Notification Icon
-          IconButton(onPressed: () {}, icon: Icon(Iconsax.notification)),
+          IconButton(onPressed: () {}, icon: const Icon(Iconsax.notification)),
+
+          /// Language Switcher
+          IconButton(
+            onPressed: () => Get.put(LanguageController()).changeLanguage(),
+            icon: const Icon(Iconsax.translate),
+          ),
 
           /// User data
           Row(
@@ -76,21 +83,22 @@ class THeader extends StatelessWidget implements PreferredSizeWidget {
               ),
               if (!TDeviceUtils.isMobileScreen(context))
                 Obx(
-                () => Column(
+                  () => Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      controller.isLoading.value? const TShimmerEffect(width: 50, height: 13):
-                      Text(
-                       controller.user.value.fullName,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      controller.isLoading.value? const TShimmerEffect(width: 50, height: 13):
-
-                      Text(
-                        controller.user.value.email,
-                        style: Theme.of(context).textTheme.labelMedium,
-                      ),
+                      controller.isLoading.value
+                          ? const TShimmerEffect(width: 50, height: 13)
+                          : Text(
+                              controller.user.value.fullName,
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                      controller.isLoading.value
+                          ? const TShimmerEffect(width: 50, height: 13)
+                          : Text(
+                              controller.user.value.email,
+                              style: Theme.of(context).textTheme.labelMedium,
+                            ),
                     ],
                   ),
                 )

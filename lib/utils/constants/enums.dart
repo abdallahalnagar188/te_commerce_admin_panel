@@ -4,7 +4,6 @@
 -- */
 
 /// Switch of Custom Brand-Text-Size Widget
-enum AppRole { admin, user }
 
 enum TransactionType { buy, sell }
 
@@ -20,4 +19,14 @@ enum MediaCategory { folders, banners, brands, categories, products, users }
 
 enum OrderStatus { pending, processing, shipped, delivered, cancelled }
 
-enum PaymentMethods { paypal, googlePay, applePay, visa, masterCard, creditCard, paystack, razorPay, paytm }
+enum PaymentMethods {
+  paypal,
+  googlePay,
+  applePay,
+  visa,
+  masterCard,
+  creditCard,
+  paystack,
+  razorPay,
+  paytm
+}

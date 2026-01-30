@@ -156,14 +156,12 @@ class EditProductController extends GetxController {
                 element.stock < 0 ||
                 element.image.isEmpty);
 
-        if (variationCheckFailed)
-          throw 'Variation data is not accurate. please check and try again';
+        if (variationCheckFailed) throw 'Variation data is not accurate. please check and try again';
       }
 
       thumbnailUploader.value = true;
       final imagesController = ProductImageController.instance;
-      if (imagesController.selectedThumbnailImageUrl.value == null)
-        throw 'Select Thumbnail Image';
+      if (imagesController.selectedThumbnailImageUrl.value == null) throw 'Select Thumbnail Image';
 
       additionalImagesUploader.value = true;
 
@@ -184,8 +182,7 @@ class EditProductController extends GetxController {
       product.price = double.tryParse(price.text.trim()) ?? 0;
       product.images = imagesController.additionalProductImagesUrls;
       product.salePrice = double.tryParse(salePrice.text.trim()) ?? 0;
-      product.thumbnail =
-          imagesController.selectedThumbnailImageUrl.value ?? '';
+      product.thumbnail = imagesController.selectedThumbnailImageUrl.value ?? '';
       product.productAttributes =
           ProductAttributesController.instance.productAttributes;
       product.productVariations = variations;
@@ -233,6 +230,7 @@ class EditProductController extends GetxController {
     } catch (e) {
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
+      debugPrint(e.toString());
     }
   }
 

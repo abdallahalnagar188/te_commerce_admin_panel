@@ -6,7 +6,8 @@ import 'package:te_commerce_admin_panel/data/repos/shop/setting/settings_repo.da
 import 'package:te_commerce_admin_panel/data/repos/user/user_repo.dart';
 import 'package:te_commerce_admin_panel/features/auth/controllers/user_controller.dart';
 import 'package:te_commerce_admin_panel/features/auth/models/user_model.dart';
-import 'package:te_commerce_admin_panel/utils/constants/enums.dart';
+
+import 'package:te_commerce_admin_panel/utils/roles.dart';
 import 'package:te_commerce_admin_panel/utils/constants/text_strings.dart';
 
 import '../../../utils/constants/image_strings.dart';
@@ -63,22 +64,24 @@ class LoginController extends GetxController {
       }
 
       // Login user using Email and Password Auth
-      await AuthRepo.instance.loginWithEmailAndPassword(email.text.trim(), password.text.trim());
+      await AuthRepo.instance
+          .loginWithEmailAndPassword(email.text.trim(), password.text.trim());
 
       // Fetch user details and assign to user controller
       final user = await UserController.instance.fetchUserDetails();
-
 
       // Remove Loading
       TFullScreenLoader.stopLoading();
 
       // Redirect
-      if(user.role != AppRole.admin){
+      if (user.role != AppRole.admin) {
         await AuthRepo.instance.logout();
-        TLoaders.errorSnackBar(title: "No Auth", message: 'You are not auth or do not have access. contact admin for login in');
-      }else{
+        TLoaders.errorSnackBar(
+            title: "No Auth",
+            message:
+                'You are not auth or do not have access. contact admin for login in');
+      } else {
         AuthRepo.instance.screenRedirect();
-
       }
     } catch (e) {
       TFullScreenLoader.stopLoading();
@@ -88,62 +91,61 @@ class LoginController extends GetxController {
 
   /// Handel registration for admin user
   Future<void> registerAdmin() async {
-   try {
-     // Start Loading
-     TFullScreenLoader.openLoadingDialog(
-       'Registering Admin Account...',
-       TImages.docerAnimation,
-     );
+    try {
+      // Start Loading
+      TFullScreenLoader.openLoadingDialog(
+        'Registering Admin Account...',
+        TImages.docerAnimation,
+      );
 
-     // check Internet connection
-     final isConnected = await NetworkManager.instance.isConnected();
-     if (!isConnected) {
-       TFullScreenLoader.stopLoading();
-       return;
-     }
-     // Register user using Email and Password Auth
-     await AuthRepo.instance
-         .registerWithEmailAndPassword(TTexts.adminEmail, TTexts.adminPassword);
+      // check Internet connection
+      final isConnected = await NetworkManager.instance.isConnected();
+      if (!isConnected) {
+        TFullScreenLoader.stopLoading();
+        return;
+      }
+      // Register user using Email and Password Auth
+      await AuthRepo.instance.registerWithEmailAndPassword(
+          TTexts.adminEmail, TTexts.adminPassword);
 
-     // create admin record in the firebase
-     final userRepo = Get.put(UserRepo());
+      // create admin record in the firebase
+      final userRepo = Get.put(UserRepo());
 
-     await userRepo.createUser(UserModel(
-         email: TTexts.adminEmail,
-         id: AuthRepo.instance.authUser!.uid,
-         firstName: 'Abdallah',
-         lastName: 'Alnagar Admin',
-         role: AppRole.admin,
-         createdAt: DateTime.now()));
+      await userRepo.createUser(UserModel(
+          email: TTexts.adminEmail,
+          id: AuthRepo.instance.authUser!.uid,
+          firstName: 'Abdallah',
+          lastName: 'Alnagar Admin',
+          role: AppRole.admin,
+          createdAt: DateTime.now()));
 
-     final settingsRepo = Get.put(SettingsRepository());
-     await settingsRepo.registerSettings(
-       SettingModel(
-         appName: '',
-         appLogo: '',
-         freeShippingThreshold: 0.0,
-         shippingCost: 0.0,
-         taxRate: 0.0,
-       ),
-     );
+      final settingsRepo = Get.put(SettingsRepository());
+      await settingsRepo.registerSettings(
+        SettingModel(
+          appName: '',
+          appLogo: '',
+          freeShippingThreshold: 0.0,
+          shippingCost: 0.0,
+          taxRate: 0.0,
+        ),
+      );
 
-     TFullScreenLoader.stopLoading();
+      TFullScreenLoader.stopLoading();
 
-     AuthRepo.instance.screenRedirect();
-   } catch(e){
-     TFullScreenLoader.stopLoading();
-     TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
+      AuthRepo.instance.screenRedirect();
+    } catch (e) {
+      TFullScreenLoader.stopLoading();
+      TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
     }
   }
 
   /// logout
-Future<void> logout() async {
-
+  Future<void> logout() async {
     try {
-    await AuthRepo.instance.logout();
-    AuthRepo.instance.screenRedirect();
-  } catch (e) {
-    TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
+      await AuthRepo.instance.logout();
+      AuthRepo.instance.screenRedirect();
+    } catch (e) {
+      TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
+    }
   }
-}
 }

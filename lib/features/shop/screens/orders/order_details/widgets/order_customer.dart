@@ -40,11 +40,19 @@ class OrderCustomer extends StatelessWidget {
               Obx(() {
                 return Row(
                   children: [
-                     TRoundedImage(
+                    TRoundedImage(
+                      width: 60,
+                      height: 60,
                       padding: 0,
                       backgroundColor: TColors.primaryBackground,
-                      image: controller.customer.value.profilePicture.isNotEmpty ? controller.customer.value.profilePicture : TImages.defaultImage,
-                      imageType:  controller.customer.value.profilePicture.isNotEmpty ? ImageType.network : ImageType.asset,
+                      image: controller.customer.value.profilePicture.isNotEmpty
+                          ? controller.customer.value.profilePicture
+                          : TImages.defaultImage,
+                      imageType:
+                          controller.customer.value.profilePicture.isNotEmpty
+                              ? ImageType.network
+                              : ImageType.asset,
+                      fit: BoxFit.cover,
                     ),
                     const SizedBox(width: TSizes.spaceBtwItems),
                     Expanded(
@@ -58,8 +66,8 @@ class OrderCustomer extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
-                           Text(
-                          controller.customer.value.email,
+                          Text(
+                            controller.customer.value.email,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
@@ -76,20 +84,38 @@ class OrderCustomer extends StatelessWidget {
 
         // Contact Info
         Obx(
-    () =>  SizedBox(
+          () => SizedBox(
             width: double.infinity,
             child: TRoundedContainer(
               padding: const EdgeInsets.all(TSizes.defaultSpace),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Contact Person', style: Theme.of(context).textTheme.headlineMedium,),
-                  const SizedBox(height: TSizes.spaceBtwSections,),
-                  Text(controller.customer.value.fullName, style: Theme.of(context).textTheme.titleSmall,),
-                  const SizedBox(height: TSizes.spaceBtwItems / 2,),
-                  Text(controller.customer.value.email, style: Theme.of(context).textTheme.titleSmall,),
-                  const SizedBox(height: TSizes.spaceBtwItems / 2,),
-                  Text(controller.customer.value.formattedPhoneNo, style: Theme.of(context).textTheme.titleSmall,),
+                  Text(
+                    'Contact Person',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  const SizedBox(
+                    height: TSizes.spaceBtwSections,
+                  ),
+                  Text(
+                    controller.customer.value.fullName,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                  const SizedBox(
+                    height: TSizes.spaceBtwItems / 2,
+                  ),
+                  Text(
+                    controller.customer.value.email,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                  const SizedBox(
+                    height: TSizes.spaceBtwItems / 2,
+                  ),
+                  Text(
+                    controller.customer.value.formattedPhoneNo,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
                 ],
               ),
             ),
@@ -98,47 +124,58 @@ class OrderCustomer extends StatelessWidget {
         const SizedBox(height: TSizes.spaceBtwSections),
         // Adjust as per your needs
         // Contact Info
-   SizedBox(
-            width: double.infinity,
-            child: TRoundedContainer(
-              padding: const EdgeInsets.all(TSizes.defaultSpace),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Shipping Address',
-                      style: Theme.of(context).textTheme.headlineMedium),
-                  const SizedBox(height: TSizes.spaceBtwSections),
-                  Text(order.shippingAddress != null ? order.shippingAddress!.name : '',
-                      style: Theme.of(context).textTheme.titleSmall),
-                  const SizedBox(height: TSizes.spaceBtwItems / 2),
-                  Text( order.shippingAddress != null ? order.shippingAddress!.toString() : '',
-                      style: Theme.of(context).textTheme.titleSmall),
-                ],
-              ), // Column
-            ), // TRoundedContainer
-          ),
+        SizedBox(
+          width: double.infinity,
+          child: TRoundedContainer(
+            padding: const EdgeInsets.all(TSizes.defaultSpace),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Shipping Address',
+                    style: Theme.of(context).textTheme.headlineMedium),
+                const SizedBox(height: TSizes.spaceBtwSections),
+                Text(
+                    order.shippingAddress != null
+                        ? order.shippingAddress!.name
+                        : '',
+                    style: Theme.of(context).textTheme.titleSmall),
+                const SizedBox(height: TSizes.spaceBtwItems / 2),
+                Text(
+                    order.shippingAddress != null
+                        ? order.shippingAddress!.toString()
+                        : '',
+                    style: Theme.of(context).textTheme.titleSmall),
+              ],
+            ), // Column
+          ), // TRoundedContainer
+        ),
         const SizedBox(height: TSizes.spaceBtwSections),
 
         SizedBox(
-            width: double.infinity,
-            child: TRoundedContainer(
-              padding: const EdgeInsets.all(TSizes.defaultSpace),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Billing Address',
-                      style: Theme.of(context).textTheme.headlineMedium),
-                  const SizedBox(height: TSizes.spaceBtwSections),
-                  Text(order.billingAddress != null ? order.billingAddress!.name : '',
-                      style: Theme.of(context).textTheme.titleSmall),
-                  const SizedBox(height: TSizes.spaceBtwItems / 2),
-                  Text(order.billingAddress != null ? order.billingAddress!.toString() : '',
-                      style: Theme.of(context).textTheme.titleSmall),
-                ],
-              ),
+          width: double.infinity,
+          child: TRoundedContainer(
+            padding: const EdgeInsets.all(TSizes.defaultSpace),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Billing Address',
+                    style: Theme.of(context).textTheme.headlineMedium),
+                const SizedBox(height: TSizes.spaceBtwSections),
+                Text(
+                    order.billingAddress != null
+                        ? order.billingAddress!.name
+                        : '',
+                    style: Theme.of(context).textTheme.titleSmall),
+                const SizedBox(height: TSizes.spaceBtwItems / 2),
+                Text(
+                    order.billingAddress != null
+                        ? order.billingAddress!.toString()
+                        : '',
+                    style: Theme.of(context).textTheme.titleSmall),
+              ],
             ),
           ),
-
+        ),
 
         const SizedBox(height: TSizes.spaceBtwSections),
       ],

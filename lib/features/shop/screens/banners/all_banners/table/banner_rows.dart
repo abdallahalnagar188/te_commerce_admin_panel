@@ -24,29 +24,32 @@ class BannerRows extends DataTableSource {
     return DataRow2(
       selected: controller.selectedRows[index],
       onTap: () => Get.toNamed(TRoutes.editeBanner, arguments: banner),
-      onSelectChanged: (value) => controller.selectedRows[index] = value ?? false,
+      onSelectChanged: (value) =>
+          controller.selectedRows[index] = value ?? false,
       cells: [
         DataCell(
-          Row(
-            children: [
-              TRoundedImage(
-                width: 180,
-                height: 100,
-                padding: TSizes.sm,
-                image: banner.imageUrl,
-                imageType: ImageType.network,
-                borderRadius: TSizes.borderRadiusMd,
-                backgroundColor: TColors.primaryBackground,
-              ), // TRoundedImage
-              // Text
-            ],
-          ),
+          TRoundedImage(
+            width: 100, // Reduced width for table cell
+            height: 60,
+            padding: TSizes.sm,
+            image: banner.imageUrl,
+            imageType: ImageType.network,
+            borderRadius: TSizes.borderRadiusMd,
+            backgroundColor: TColors.primaryBackground,
+            fit: BoxFit.cover,
+          ), // TRoundedImage
         ),
         // you can add more DataCells here
         DataCell(Text(controller.formatRoute(banner.targetScreen))),
-        DataCell( banner.active? Icon(Iconsax.eye, color: TColors.primary,) : Icon(Iconsax.eye_slash)),
+        DataCell(banner.active
+            ? Icon(
+                Iconsax.eye,
+                color: TColors.primary,
+              )
+            : Icon(Iconsax.eye_slash)),
         DataCell(TTableActionButtons(
-          onEditPressed: () => Get.toNamed(TRoutes.editeBanner, arguments: banner),
+          onEditPressed: () =>
+              Get.toNamed(TRoutes.editeBanner, arguments: banner),
           onDeletePressed: () => controller.confirmAndDeleteItem(banner),
         ))
       ],
@@ -60,5 +63,6 @@ class BannerRows extends DataTableSource {
   int get rowCount => controller.filteredItems.length;
 
   @override
-  int get selectedRowCount => controller.selectedRows.where((selected) => selected).length;
+  int get selectedRowCount =>
+      controller.selectedRows.where((selected) => selected).length;
 }

@@ -1,14 +1,14 @@
-import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
 import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:te_commerce_admin_panel/utils/constants/supabase_config.dart';
 
 /// Helper functions for cloud-related operations.
 class TCloudHelperFunctions {
-
   /// Helper function to check the state of a single database record.
   ///
   /// Returns a Widget based on the state of the snapshot.
@@ -39,7 +39,11 @@ class TCloudHelperFunctions {
   /// If no data is found, it returns a generic "No Data Found" message or a custom nothingFoundWidget if provided.
   /// If an error occurs, it returns a generic error message.
   /// Otherwise, it returns null.
-  static Widget? checkMultiRecordState<T>({required AsyncSnapshot<List<T>> snapshot, Widget? loader, Widget? error, Widget? nothingFound}) {
+  static Widget? checkMultiRecordState<T>(
+      {required AsyncSnapshot<List<T>> snapshot,
+      Widget? loader,
+      Widget? error,
+      Widget? nothingFound}) {
     if (snapshot.connectionState == ConnectionState.waiting) {
       if (loader != null) return loader;
       return const Center(child: CircularProgressIndicator());
@@ -62,11 +66,11 @@ class TCloudHelperFunctions {
   static Future<String> getURLFromFilePathAndName(String path) async {
     try {
       if (path.isEmpty) return '';
-      final ref = FirebaseStorage.instance.ref().child(path);
-      final url = await ref.getDownloadURL();
+      final supabase = Supabase.instance.client;
+      final url = supabase.storage
+          .from(SupabaseConfig.storageBucket)
+          .getPublicUrl(path);
       return url;
-    } on FirebaseException catch (e) {
-      throw e.message!;
     } on PlatformException catch (e) {
       throw e.message!;
     } catch (e) {
@@ -75,14 +79,28 @@ class TCloudHelperFunctions {
   }
 
   /// Retrieve the download URL from a given storage URI.
+  /// For Supabase, if the URL is already a public URL, return it as is.
+  /// Otherwise, extract the path and get the public URL.
   static Future<String> getURLFromURI(String url) async {
     try {
       if (url.isEmpty) return '';
-      final ref = FirebaseStorage.instance.refFromURL(url);
-      final downloadUrl = await ref.getDownloadURL();
+
+      // If it's already a Supabase public URL, return it
+      if (url.contains(SupabaseConfig.supabaseUrl)) {
+        return url;
+      }
+
+      // Otherwise, try to extract path and get public URL
+      // This is a fallback for compatibility
+      final supabase = Supabase.instance.client;
+      // Extract path from URL if possible, otherwise use URL as path
+      final path = url.replaceFirst(
+          '${SupabaseConfig.supabaseUrl}/storage/v1/object/public/${SupabaseConfig.storageBucket}/',
+          '');
+      final downloadUrl = supabase.storage
+          .from(SupabaseConfig.storageBucket)
+          .getPublicUrl(path);
       return downloadUrl;
-    } on FirebaseException catch (e) {
-      throw e.message!;
     } on PlatformException catch (e) {
       throw e.message!;
     } catch (e) {
@@ -91,17 +109,47 @@ class TCloudHelperFunctions {
   }
 
   /// Upload any Image using File
-  static Future<String> uploadImageFile({required html.File file, required String path, required String imageName}) async {
+  static Future<String> uploadImageFile(
+      {required html.File file,
+      required String path,
+      required String imageName}) async {
     try {
-      final ref = FirebaseStorage.instance.ref(path).child(imageName);
-      await ref.putBlob(file);
+      final supabase = Supabase.instance.client;
+      final filePath = '$path/$imageName';
 
-      final String downloadURL = await ref.getDownloadURL();
+      // Read file as bytes
+      final reader = html.FileReader();
+      reader.readAsArrayBuffer(file);
+      await reader.onLoad.first;
+      final bytes = reader.result as List<int>;
+
+      // Determine content type
+      String contentType = 'image/jpeg';
+      if (imageName.toLowerCase().endsWith('.png')) {
+        contentType = 'image/png';
+      } else if (imageName.toLowerCase().endsWith('.gif')) {
+        contentType = 'image/gif';
+      } else if (imageName.toLowerCase().endsWith('.webp')) {
+        contentType = 'image/webp';
+      }
+
+      // Upload to Supabase storage
+      await supabase.storage.from(SupabaseConfig.storageBucket).uploadBinary(
+            filePath,
+            Uint8List.fromList(bytes),
+            fileOptions: FileOptions(
+              upsert: true,
+              contentType: contentType,
+            ),
+          );
+
+      // Get public URL
+      final String downloadURL = supabase.storage
+          .from(SupabaseConfig.storageBucket)
+          .getPublicUrl(filePath);
 
       // Return the download URL
       return downloadURL;
-    } on FirebaseException catch (e) {
-      throw e.message!;
     } on SocketException catch (e) {
       throw e.message;
     } on PlatformException catch (e) {
@@ -113,16 +161,31 @@ class TCloudHelperFunctions {
 
   static Future<void> deleteFileFromStorage(String downloadUrl) async {
     try {
-      Reference ref = FirebaseStorage.instance.refFromURL(downloadUrl);
-      await ref.delete();
+      final supabase = Supabase.instance.client;
+
+      // Extract path from Supabase URL
+      // URL format: https://[project].supabase.co/storage/v1/object/public/[bucket]/[path]
+      String? filePath;
+      if (downloadUrl.contains('/storage/v1/object/public/')) {
+        final parts = downloadUrl.split('/storage/v1/object/public/');
+        if (parts.length > 1) {
+          final pathParts = parts[1].split('/');
+          if (pathParts.length > 1) {
+            // Remove bucket name and get the rest as path
+            filePath = pathParts.sublist(1).join('/');
+          }
+        }
+      }
+
+      if (filePath == null) {
+        throw Exception('Could not extract file path from URL');
+      }
+
+      await supabase.storage
+          .from(SupabaseConfig.storageBucket)
+          .remove([filePath]);
 
       print('File deleted successfully.');
-    } on FirebaseException catch (e) {
-      if (e.code == 'object-not-found') {
-        print('The file does not exist in Firebase Storage.');
-      } else {
-        throw e.message!;
-      }
     } on SocketException catch (e) {
       throw e.message;
     } on PlatformException catch (e) {

@@ -72,21 +72,17 @@ class ImagePopup extends StatelessWidget {
               const SizedBox(height: TSizes.spaceBtwItems),
               Row(
                 children: [
-                     Text(
-                      'Image Name:',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-
-                  const SizedBox(width: TSizes.spaceBtwSections *2.1),
-
-                    Text(
-                      image.fileName!,
-                      style: Theme.of(context).textTheme.bodySmall,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-
-
+                  Text(
+                    'Image Name:',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(width: TSizes.spaceBtwSections * 2.1),
+                  Text(
+                    image.fileName!,
+                    style: Theme.of(context).textTheme.bodySmall,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
               const SizedBox(height: TSizes.spaceBtwItems),
@@ -113,12 +109,15 @@ class ImagePopup extends StatelessWidget {
                     child: OutlinedButton(
                       onPressed: () {
                         FlutterClipboard.copy(image.url!).then(
-                              (value) => TLoaders.customToast(
+                          (value) => TLoaders.customToast(
                             message: 'URL copied!',
                           ),
                         );
                       },
-                      child:  Text('Copy URL',style: Theme.of(context).textTheme.bodyMedium,),
+                      child: Text(
+                        'Copy URL',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                     ),
                   ),
                 ],
@@ -131,9 +130,10 @@ class ImagePopup extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 300,
+                    width: TDeviceUtils.isMobileScreen(context) ? null : 300,
                     child: TextButton(
-                      onPressed: ()  => MediaController.instance.removeCloudImageConfirmation(image),
+                      onPressed: () => MediaController.instance
+                          .removeCloudImageConfirmation(image),
                       child: const Text(
                         'Delete Image',
                         style: TextStyle(color: Colors.red),
