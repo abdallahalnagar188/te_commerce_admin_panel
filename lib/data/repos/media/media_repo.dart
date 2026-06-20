@@ -254,7 +254,7 @@ class MediaRepository extends GetxController {
           .collection('Images')
           .where('mediaCategory', isEqualTo: mediaCategory.name.toString())
           .orderBy('createdAt', descending: true)
-          .startAfter([lastFetchDate])
+          .startAfter([lastFetchDate.toIso8601String()])
           .limit(loadCount)
           .get();
 

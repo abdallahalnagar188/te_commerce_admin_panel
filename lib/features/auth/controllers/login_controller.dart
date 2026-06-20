@@ -26,8 +26,6 @@ class LoginController extends GetxController {
   final email = TextEditingController();
   final password = TextEditingController();
 
-  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-
   @override
   void onInit() {
     email.text = localStorage.read('REMEMBER_ME_EMAIL') ?? '';
@@ -51,11 +49,7 @@ class LoginController extends GetxController {
         return;
       }
 
-      // Form Validate
-      if (!loginFormKey.currentState!.validate()) {
-        TFullScreenLoader.stopLoading();
-        return;
-      }
+
 
       // Save data if remember me is selected
       if (rememberMe.value) {
@@ -63,12 +57,20 @@ class LoginController extends GetxController {
         localStorage.write('REMEMBER_ME_PASSWORD', password.text.trim());
       }
 
+      print('--- LOGIN REQUEST ---');
+      print('Email: ${email.text.trim()}');
+
       // Login user using Email and Password Auth
-      await AuthRepo.instance
+      final userCreds = await AuthRepo.instance
           .loginWithEmailAndPassword(email.text.trim(), password.text.trim());
 
+      print('--- LOGIN RESPONSE ---');
+      print('Success: UID ${userCreds.user?.uid}');
+
       // Fetch user details and assign to user controller
+      print('Fetching User Details...');
       final user = await UserController.instance.fetchUserDetails();
+      print('User Fetched: ${user.toJson()}');
 
       // Remove Loading
       TFullScreenLoader.stopLoading();
@@ -85,6 +87,7 @@ class LoginController extends GetxController {
       }
     } catch (e) {
       TFullScreenLoader.stopLoading();
+      print('ERROR during login: ${e.toString()}');
       TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
     }
   }
@@ -104,20 +107,35 @@ class LoginController extends GetxController {
         TFullScreenLoader.stopLoading();
         return;
       }
+
+
+      final emailText = email.text.trim();
+      final passwordText = password.text.trim();
+
+      print('--- REGISTER REQUEST ---');
+      print('Email: $emailText');
+
       // Register user using Email and Password Auth
-      await AuthRepo.instance.registerWithEmailAndPassword(
-          TTexts.adminEmail, TTexts.adminPassword);
+      final userCreds = await AuthRepo.instance.registerWithEmailAndPassword(
+          emailText, passwordText);
+
+      print('--- REGISTER RESPONSE ---');
+      print('Success: UID ${userCreds.user?.uid}');
 
       // create admin record in the firebase
       final userRepo = Get.put(UserRepo());
 
+      print('--- CREATE FIRESTORE USER REQUEST ---');
       await userRepo.createUser(UserModel(
-          email: TTexts.adminEmail,
+          email: emailText,
           id: AuthRepo.instance.authUser!.uid,
-          firstName: 'Abdallah',
-          lastName: 'Alnagar Admin',
+          firstName: 'Admin',
+          lastName: 'User',
           role: AppRole.admin,
           createdAt: DateTime.now()));
+          
+      print('--- CREATE FIRESTORE USER RESPONSE ---');
+      print('Success!');
 
       final settingsRepo = Get.put(SettingsRepository());
       await settingsRepo.registerSettings(
@@ -135,6 +153,7 @@ class LoginController extends GetxController {
       AuthRepo.instance.screenRedirect();
     } catch (e) {
       TFullScreenLoader.stopLoading();
+      print('ERROR during registration: ${e.toString()}');
       TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
     }
   }

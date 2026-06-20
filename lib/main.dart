@@ -7,6 +7,7 @@ import 'package:te_commerce_admin_panel/data/repos/auth/auth_repo.dart';
 import 'package:te_commerce_admin_panel/firebase_options.dart';
 import 'package:te_commerce_admin_panel/utils/constants/supabase_config.dart';
 import 'package:url_strategy/url_strategy.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'app.dart';
 
 /// Entry point of Flutter App
@@ -27,8 +28,9 @@ Future<void> main() async {
   );
 
   // Initialize Firebase & Authentication Repository
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
-      .then((FirebaseApp value) => Get.put(AuthRepo()));
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseAuth.instance.authStateChanges().first;
+  Get.put(AuthRepo());
 
 
   runApp(const App());

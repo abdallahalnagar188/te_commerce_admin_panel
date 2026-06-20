@@ -24,6 +24,7 @@ import '../../../media/models/image/image_model.dart';
 import '../../models/product_category_model.dart';
 import '../../models/product_model.dart';
 import '../category/category_controller.dart';
+import 'package:te_commerce_admin_panel/routes/routes.dart';
 
 class EditProductController extends GetxController {
   static EditProductController get instance => Get.find();
@@ -117,8 +118,6 @@ class EditProductController extends GetxController {
   Future<void> updateProduct(ProductModel product) async {
     try {
       showProgressDialog();
-      // Start Loading
-      TFullScreenLoader.popUpCircular();
 
       // Check Internet Connection
       final isConnected = await NetworkManager.instance.isConnected();
@@ -226,7 +225,13 @@ class EditProductController extends GetxController {
       ProductController.instance.updateItemFromLists(product);
       // Remove Loading
       TFullScreenLoader.stopLoading();
-      showCompletionDialog();
+      
+      // Go back to previous screen
+      Get.back();
+
+      // Show Success Message
+      TLoaders.successSnackBar(title: 'Success', message: 'Product updated successfully');
+      
     } catch (e) {
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());

@@ -9,7 +9,8 @@ import 'package:te_commerce_admin_panel/utils/constants/colors.dart';
 import 'package:te_commerce_admin_panel/utils/constants/enums.dart';
 import 'package:te_commerce_admin_panel/utils/constants/sizes.dart';
 import 'package:te_commerce_admin_panel/utils/device/device_utility.dart';
-
+import 'package:te_commerce_admin_panel/features/shop/controllers/order/order_notification_controller.dart';
+import 'package:te_commerce_admin_panel/routes/routes.dart';
 import '../../../../utils/constants/image_strings.dart';
 
 class THeader extends StatelessWidget implements PreferredSizeWidget {
@@ -20,6 +21,7 @@ class THeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final controller = UserController.instance;
+    final orderNotificationController = Get.put(OrderNotificationController());
     return Container(
       decoration: BoxDecoration(
         color: TColors.white,
@@ -53,7 +55,41 @@ class THeader extends StatelessWidget implements PreferredSizeWidget {
             IconButton(onPressed: () {}, icon: Icon(Iconsax.search_normal)),
 
           /// Notification Icon
-          IconButton(onPressed: () {}, icon: const Icon(Iconsax.notification)),
+          Obx(() {
+            final unreadCount = orderNotificationController.unreadCount.value;
+            return PopupMenuButton<String>(
+              onOpened: () => orderNotificationController.markAllAsRead(),
+              offset: const Offset(0, 50),
+              icon: Badge(
+                isLabelVisible: unreadCount > 0,
+                label: Text(unreadCount.toString()),
+                child: const Icon(Iconsax.notification),
+              ),
+              itemBuilder: (context) {
+                final notifications = orderNotificationController.recentNotifications;
+                if (notifications.isEmpty) {
+                  return [
+                    const PopupMenuItem<String>(
+                      enabled: false,
+                      child: Text('No new notifications'),
+                    ),
+                  ];
+                }
+                return notifications.take(5).map((order) {
+                  return PopupMenuItem<String>(
+                    value: order.id,
+                    onTap: () => Get.toNamed(TRoutes.orders),
+                    child: ListTile(
+                      leading: const Icon(Iconsax.bag_tick, color: Colors.blue),
+                      title: Text('New Order #${order.id}'),
+                      subtitle: Text('\$${order.totalAmount}'),
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                  );
+                }).toList();
+              },
+            );
+          }),
 
           /// Language Switcher
           IconButton(

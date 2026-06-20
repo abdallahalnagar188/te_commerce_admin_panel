@@ -18,7 +18,6 @@ class TLoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(LoginController());
     return Form(
-        key: controller.loginFormKey,
         child: Padding(
           padding:
               const EdgeInsets.symmetric(vertical: TSizes.spaceBtwSections),
@@ -85,7 +84,31 @@ class TLoginForm extends StatelessWidget {
               /// Sign in button
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(onPressed: () =>  controller.emailAndPasswordSignIn(), child: Text('Sign in')),
+                child: Builder(
+                  builder: (context) => ElevatedButton(
+                    onPressed: () {
+                      if (Form.of(context).validate()) {
+                        controller.emailAndPasswordSignIn();
+                      }
+                    }, 
+                    child: Text('Sign in')
+                  ),
+                ),
+              ),
+              const SizedBox(height: TSizes.spaceBtwSections),
+              /// Register Admin button (Temporary)
+              SizedBox(
+                width: double.infinity,
+                child: Builder(
+                  builder: (context) => OutlinedButton(
+                    onPressed: () {
+                      if (Form.of(context).validate()) {
+                        controller.registerAdmin();
+                      }
+                    }, 
+                    child: Text('Register Admin (First Time Only)')
+                  ),
+                ),
               )
             ],
           ),

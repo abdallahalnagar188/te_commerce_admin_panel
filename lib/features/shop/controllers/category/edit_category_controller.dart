@@ -64,7 +64,6 @@ class EditCategoryController extends GetxController {
 
       // Call Repo to Create new User
       await CategoryRepo.instance.updateCategory(category);
-
       // Update all Data List
       CategoryController.instance.updateItemFromLists(category);
 
@@ -72,6 +71,11 @@ class EditCategoryController extends GetxController {
 
       // Remove Loading
       TFullScreenLoader.stopLoading();
+      
+      // Go back to previous screen
+      Get.back();
+      
+      // Show Success Message
       TLoaders.successSnackBar(
           title: 'Congratulation', message: 'New Record has been added');
     } catch (e) {
@@ -79,7 +83,6 @@ class EditCategoryController extends GetxController {
       TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
     }
   }
-
   void pickImage() async {
     final controller = Get.put(MediaController());
     List<ImageModel>? selectedImages = await controller.selectImagesFromMedia();
@@ -97,3 +100,4 @@ class EditCategoryController extends GetxController {
     image.value = '';
   }
 }
+

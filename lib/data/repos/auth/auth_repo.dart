@@ -53,7 +53,7 @@ class AuthRepo extends GetxController {
     } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong , Please try again';
+      throw 'Something went wrong: ${e.toString()}';
     }
   }
 
@@ -74,7 +74,7 @@ class AuthRepo extends GetxController {
     } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong , Please try again';
+      throw 'Something went wrong: ${e.toString()}';
     }
   }
 // Register User By Admin
@@ -101,7 +101,7 @@ class AuthRepo extends GetxController {
     } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong , Please try again';
+      throw 'Something went wrong: ${e.toString()}';
     }
   }
 // Delete User

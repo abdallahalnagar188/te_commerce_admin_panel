@@ -23,6 +23,7 @@ import '../../../../utils/popups/loaders.dart';
 import '../../../media/controller/media_controller.dart';
 import '../../../media/models/image/image_model.dart';
 import '../../models/product_category_model.dart';
+import 'package:te_commerce_admin_panel/routes/routes.dart';
 
 class CreateProductController extends GetxController {
   static CreateProductController get instance => Get.find();
@@ -150,9 +151,14 @@ class CreateProductController extends GetxController {
 
       // Remove Loading
       TFullScreenLoader.stopLoading();
-      showCompletionDialog();
+      
+      // Go back to previous screen
+      Get.back();
+
+      // Show Success Message
       TLoaders.successSnackBar(
           title: 'Congratulation', message: 'New Record has been added');
+      
     } catch (e) {
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());

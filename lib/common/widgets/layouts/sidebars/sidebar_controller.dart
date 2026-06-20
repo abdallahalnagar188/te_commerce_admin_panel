@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:te_commerce_admin_panel/features/shop/controllers/order/order_notification_controller.dart';
 import 'package:te_commerce_admin_panel/routes/routes.dart';
 import 'package:te_commerce_admin_panel/utils/device/device_utility.dart';
 
@@ -14,6 +15,8 @@ class SidebarController extends GetxController {
   void onInit() {
     super.onInit();
     activeItem.value = TRoutes.dashboard;
+    
+    Get.put(OrderNotificationController());
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (Get.currentRoute != TRoutes.dashboard) {

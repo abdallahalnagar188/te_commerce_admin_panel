@@ -29,7 +29,7 @@ class UserRepo extends GetxController {
     } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong , Please try again';
+      throw 'Something went wrong: ${e.toString()}';
     }
   }
 
@@ -47,7 +47,7 @@ class UserRepo extends GetxController {
     } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong , Please try again';
+      throw 'Something went wrong: ${e.toString()}';
     }
   }
 
@@ -66,7 +66,7 @@ class UserRepo extends GetxController {
     } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong , Please try again';
+      throw 'Something went wrong: ${e.toString()}';
     }
 
   }
@@ -83,7 +83,7 @@ class UserRepo extends GetxController {
     } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong , Please try again';
+      throw 'Something went wrong: ${e.toString()}';
     }
   }
 // fun to delete user from firebase
@@ -97,7 +97,7 @@ class UserRepo extends GetxController {
     } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong , Please try again';
+      throw 'Something went wrong: ${e.toString()}';
     }}
 
   Future<UserModel> fetchAdminDetails() async {
@@ -115,7 +115,7 @@ class UserRepo extends GetxController {
     } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong , Please try again';
+      throw 'Something went wrong: ${e.toString()}';
     }
   }
 
@@ -134,7 +134,7 @@ class UserRepo extends GetxController {
     } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong , Please try again';
+      throw 'Something went wrong: ${e.toString()}';
     }
   }
 
@@ -152,7 +152,7 @@ class UserRepo extends GetxController {
     } on PlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong. Please try again';
+      throw 'Something went wrong: ${e.toString()}';
     }
   }
 }

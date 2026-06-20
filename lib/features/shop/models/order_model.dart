@@ -48,11 +48,20 @@ class OrderModel {
       : '';
 
   // Status text for UI
-  String get orderStatusText => status == OrderStatus.delivered
-      ? 'Delivered'
-      : status == OrderStatus.shipped
-      ? 'Shipment on the way'
-      : 'Processing';
+  String get orderStatusText {
+    switch (status) {
+      case OrderStatus.pending:
+        return 'Pending';
+      case OrderStatus.processing:
+        return 'Processing';
+      case OrderStatus.shipped:
+        return 'Shipment on the way';
+      case OrderStatus.delivered:
+        return 'Delivered';
+      case OrderStatus.cancelled:
+        return 'Cancelled';
+    }
+  }
 
   // empty Order Model
   static OrderModel empty() {
@@ -101,10 +110,14 @@ class OrderModel {
       totalAmount: (data['totalAmount'] ?? 0).toDouble(),
       shippingCost: (data['shippingCost'] ?? 0).toDouble(),
       taxCost: (data['taxCost'] ?? 0).toDouble(),
-      orderDate: DateTime.tryParse(data['orderDate'] ?? '') ?? DateTime.now(),
+      orderDate: data['orderDate'] is Timestamp
+          ? (data['orderDate'] as Timestamp).toDate()
+          : DateTime.tryParse(data['orderDate']?.toString() ?? '') ?? DateTime.now(),
       paymentMethod: data['paymentMethod'] ?? 'Cash on Delivery',
       deliveryDate: data['deliveryDate'] != null
-          ? DateTime.tryParse(data['deliveryDate'])
+          ? (data['deliveryDate'] is Timestamp
+              ? (data['deliveryDate'] as Timestamp).toDate()
+              : DateTime.tryParse(data['deliveryDate'].toString()))
           : null,
       shippingAddress: data['shippingAddress'] != null
           ? AddressModel.fromMap(data['shippingAddress'])

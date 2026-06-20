@@ -88,6 +88,11 @@ class EditBrandController extends GetxController {
 
       // Remove Loading
       TFullScreenLoader.stopLoading();
+      
+      // Go back to previous screen
+      Get.back();
+      
+      // Show Success Message
       TLoaders.successSnackBar(
           title: 'Congratulation', message: 'New Record has been Updated');
     } catch (e) {
@@ -149,3 +154,4 @@ class EditBrandController extends GetxController {
   Future<void> updateBrandInProducts(BrandModel brand) async {}
 
 }
+

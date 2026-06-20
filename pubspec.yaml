@@ -50,6 +50,9 @@ dependencies:
 
   # Supabase
   supabase_flutter: ^2.0.0
+  googleapis_auth: ^2.0.0
+  dart_jsonwebtoken: ^3.4.1
+  audioplayers: ^6.6.0
 
 
 dev_dependencies:
@@ -65,10 +68,12 @@ flutter:
 
   #--------------- LOCAL ASSETS ------------------#
   assets:
+    - assets/service.json
     - assets/logos/
     - assets/images/content/
     - assets/images/animations/
     - assets/icons/payment_methods/
+    - assets/sounds/
 
   #--------------- LOCAL FONTS ------------------#
   fonts:
