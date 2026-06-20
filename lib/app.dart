@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:te_commerce_admin_panel/bindings/general_bindings.dart';
-import 'package:te_commerce_admin_panel/common/widgets/layouts/templates/site_layout.dart';
 import 'package:te_commerce_admin_panel/routes/app_routes.dart';
 import 'package:te_commerce_admin_panel/routes/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
